@@ -87,9 +87,6 @@ to identify a reasonably sized vocabulary set. The larger the vocabulary set the
 the document-term matrix becomes. There is a direct correlation between the performance
 each implementation and the size of the vocabulary set.
 
-36 megabytes of text (67 documents) takes ~9 minutes and 50 seconds to process on a laptop
-sporting an 8 core (4 physical, 8 virtual) Intel Core i5 8th Gen processor.
-
 ## HPX Compilation Flags
 
 Take time to review the following build options for HPX [here](https://hpx-docs.stellar-group.org/latest/html/manual/building_hpx.html).
