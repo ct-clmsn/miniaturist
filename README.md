@@ -139,8 +139,8 @@ and the license terms can be found in the file 'LICENSE'.
 
 ## Special Thanks
 
-* STE||AR Group (HPX)
-* Klaus Iglberger (Blaze)
+* STE||AR Group ([STE||AR HPX](https://github.com/STEllAR-GROUP/hpx))
+* Klaus Iglberger ([Blaze](https://bitbucket.org/blaze-lib/blaze/src/master/))
 * Erlend Hamberg (Jump Consistency Hash)
 * Daan Kolthof (Bloom Filter)
 
