@@ -115,11 +115,11 @@ with no license provided. The blog post and author are referenced
 in a comment at the top of the file 'jch.hpp'.
 
 * The Bloom Filter implementation is MIT licensed and the license
-terms can be found in the file 'LICENSE'. The author is referenced
+terms can be found in the file 'MIT_LICENSE'. The author is referenced
 in a comment at the top of the file 'bloomfilter.hpp'.
 
 * The remainder of the source code in this project is Boost Licensed
-and the license terms can be found in the file 'LICENSE_1_0.txt'.
+and the license terms can be found in the file 'LICENSE'.
 
 ==Dependencies==
 
