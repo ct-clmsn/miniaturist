@@ -55,22 +55,22 @@ Program names:
 
 Command line arguments for all programs:
 
-* --num_topics=<enter an unsigned integer value for number of topics>, required
-* --vocab_list=<enter a valid path to the file containing the vocabulary list>, required
-* --corpus_dir=<enter a valid path to the directory containing the training corpus>, required
-* --regex=<enter a regular expression>, default [\p{L}\p{M}]+
-* --num_iters=<enter an unsigned integer value for iterations>, default 1000
-* --alpha=<enter a floating point number for alpha prior>, default 0.1
-* --beta=<enter a floating point number for beta prior>, default 0.01
+* --num_topics=[enter an unsigned integer value for number of topics], required
+* --vocab_list=[enter a valid path to the file containing the vocabulary list], required
+* --corpus_dir=[enter a valid path to the directory containing the training corpus], required
+* --regex=[enter a regular expression], default [\p{L}\p{M}]+
+* --num_iters=[enter an unsigned integer value for iterations], default 1000
+* --alpha=[enter a floating point number for alpha prior], default 0.1
+* --beta=[enter a floating point number for beta prior], default 0.01
 
 Additional command line arguments for parlda:
 
-* --hpx:threads=<enter an unsigned integer value for number of threads>, optional
+* --hpx:threads=[enter an unsigned integer value for number of threads], optional
 
 Additional command line arguments for distparlda:
 
-* --hpx:threads=<enter an unsigned integer value for number of threads>, optional
-* --hpx:nodes=<enter an unsigned integer value for number of threads>, optional
+* --hpx:threads=[enter an unsigned integer value for number of threads], optional
+* --hpx:nodes=[enter an unsigned integer value for number of threads], optional
 
 ## Implementation Notes
 
