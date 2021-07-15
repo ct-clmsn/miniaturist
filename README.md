@@ -1,4 +1,8 @@
-=Miniaturist=
+<!-- Copyright (c) 2021 Christopher Taylor                                          -->
+<!--                                                                                -->
+<!--   Distributed under the Boost Software License, Version 1.0. (See accompanying -->
+<!--   file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)        -->
+# [Miniaturist](https://github.com/ct-clmsn/miniaturist)
 
 This project provides an implementation of a distributed
 memory latent dirichlet allocation algorithm found [here](https://www.ics.uci.edu/~asuncion/software/fast.htm).
@@ -21,7 +25,7 @@ This implementation only scales in the direction of documents.
 Users are required to provide a vocabulary list in order to make
 use of this implementation.
 
-== How To Build ==
+## How To Build
 
 To build this software, users are provided 2 options: a handrolled
 makefile or cmake.
@@ -41,7 +45,7 @@ be found:
 PATH_TO_BLAZE_CMAKEFILE=/usr/share/blaze/cmake 
 PATH_TO_HPX_CMAKEFILE=/usr/lib/cmake/HPX
 
-== How To Use ==
+## How To Use
 
 Program names:
 
@@ -68,7 +72,7 @@ Additional command line arguments for distparlda:
 * --hpx:threads=<enter an unsigned integer value for number of threads>, optional
 * --hpx:nodes=<enter an unsigned integer value for number of threads>, optional
 
-== Implementation Notes ==
+## Implementation Notes
 
 This implementation loads the corpus into an inverted index. The inverted index
 is converted into a sparse matrix that is transposed into a document-term matrix.
@@ -86,7 +90,7 @@ each implementation and the size of the vocabulary set.
 36 megabytes of text (67 documents) takes ~9 minutes and 50 seconds to process on a laptop
 sporting an 8 core (4 physical, 8 virtual) Intel Core i5 8th Gen processor.
 
-== HPX Compilation Flags==
+## HPX Compilation Flags
 
 Take time to review the following build options for HPX [here](https://hpx-docs.stellar-group.org/latest/html/manual/building_hpx.html).
 Below are a short list of recommended options.
@@ -105,7 +109,7 @@ For HPC Environments w/libfabric:
 * HPX_WITH_PARCELPORT_LIBFABRIC=ON
 * HPX_WITH_PARCELPORT_LIBFABRIC_PROVIDER=[gni,verbs,psm2,etc]
 
-==Licenses==
+## Licenses
 
 This implementation uses a Jump Consistency Hash and a Bloom Filter
 implementation provided by 3rd parties.
@@ -121,7 +125,7 @@ in a comment at the top of the file 'bloomfilter.hpp'.
 * The remainder of the source code in this project is Boost Licensed
 and the license terms can be found in the file 'LICENSE'.
 
-==Dependencies==
+## Dependencies
 
 * C++17
 * STE||AR HPX
@@ -133,17 +137,17 @@ and the license terms can be found in the file 'LICENSE'.
 * pkg-config
 * cmake >= 3.17
 
-==Special Thanks==
+## Special Thanks
 
 * STE||AR Group (HPX)
 * Klaus Iglberger (Blaze)
 * Erlend Hamberg (Jump Consistency Hash)
 * Daan Kolthof (Bloom Filter)
 
-==Author==
+## Author
 
 Christopher Taylor
 
-==Date==
+## Date
 
 07/03/2021
