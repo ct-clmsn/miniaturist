@@ -23,7 +23,7 @@ project(miniaturist CXX)
 
 # Instruct cmake to find the HPX settings
 include(FindPkgConfig REQUIRED)
-find_package(HPX)
+find_package(HPX REQUIRED)
 find_package(LAPACK REQUIRED)
 find_package(BLAS REQUIRED)
 find_package(OpenSSL REQUIRED)
