@@ -41,7 +41,7 @@ endif()
 include("${blaze_DIR}/blaze-config-version.cmake")
 message("Blaze version: " "${PACKAGE_VERSION}")
 
-add_executable(lda jch.cpp documents.cpp results.cpp lda.cpp)
+add_executable(lda jch.cpp documents.cpp results.cpp gibbs.cpp ldalib.cpp lda.cpp)
 
 target_compile_options(lda PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
 target_link_libraries(lda -lstdc++fs)
@@ -73,7 +73,7 @@ target_link_libraries(lda ${OPENSSL_LIBRARIES})
 target_link_directories(lda PUBLIC ${OPENSSL_LIBRARY_DIRS})
 target_include_directories(lda PUBLIC ${OPENSSL_INCLUDE_DIRS})
 
-add_executable(parlda jch.cpp documents.cpp results.cpp parlda.cpp)
+add_executable(parlda jch.cpp documents.cpp results.cpp gibbs.cpp parldalib.cpp parlda.cpp)
 
 target_compile_options(parlda PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
 target_compile_definitions(parlda PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_SHARED_MEMORY_PARALLELIZATION)
@@ -110,7 +110,7 @@ target_link_libraries(parlda ${OPENSSL_LIBRARIES})
 target_link_directories(parlda PUBLIC ${OPENSSL_LIBRARY_DIRS})
 target_include_directories(parlda PUBLIC ${OPENSSL_INCLUDE_DIRS})
 
-add_executable(distparlda jch.cpp documents.cpp results.cpp distparlda.cpp)
+add_executable(distparlda jch.cpp documents.cpp results.cpp gibbs.cpp distparldalib.cpp distparlda.cpp)
 
 target_compile_options(distparlda PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
 target_compile_definitions(distparlda PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_SHARED_MEMORY_PARALLELIZATION)

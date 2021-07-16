@@ -5,130 +5,24 @@
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include <vector>
-#include <numeric>
-#include <algorithm>
-#include <cmath>
 #include <cstdint>
 #include <cassert>
+#include <iostream>
 #include <unistd.h>
 #include <getopt.h>
-#include <iostream>
 
 #include <unicode/unistr.h>
 #include <blaze/Math.h>
 
-#include "lda.hpp"
-#include "documents.hpp"
+#include "ldalib.hpp"
 #include "results.hpp"
+#include "documents.hpp"
 
-namespace fs = std::experimental::filesystem;
+using namespace icu_69;
 
 using blaze::DynamicMatrix;
 using blaze::DynamicVector;
 using blaze::CompressedMatrix;
-
-inline void gibbs(CompressedMatrix<double> const& dwcm, DynamicMatrix<double> & tdcm, DynamicMatrix<double> & twcm, std::vector<std::size_t> & tokens, DynamicVector<double> & ztot, DynamicVector<double> & probs, const std::size_t n_topics, const double N, const double alpha, const double beta) {
-
-    const std::size_t n_docs = dwcm.rows();
-    //const std::size_t n_tokens = tokens.size(); //dwcm.columns();
-    const double wbeta = N * beta;
-
-    std::vector<std::size_t>::iterator token_itr = tokens.begin();
-    //const std::vector<std::size_t>::iterator token_end = tokens.end();
-
-    for(std::size_t d = 0; d < n_docs; ++d) {
-        //for(std::size_t w = 0; w < n_words; w++) {
-        //    const std::size_t k_max = static_cast<std::size_t>(std::floor(dwcm(d,w)));
-        const auto dwcm_end = dwcm.end(d);
-        for(CompressedMatrix<double, blaze::rowMajor>::ConstIterator it = dwcm.begin(d); it != dwcm_end; ++it) {
-            const std::size_t w = it->index();
-            const std::size_t k_max = static_cast<std::size_t>(std::floor(it->value()));
-            for(std::size_t k = 0; k < k_max; k++) {
-                // decrement twcm, tdcm, ztot
-                //
-                //assert(token_itr != token_end);
-                std::size_t t = (*token_itr);
-
-                //assert(twcm(t, w) >= 0.0);
-                //assert(tdcm(t, d) >= 0.0);
-                //assert(ztot[t] >= 0.0);
-
-                ztot[t] -= 1.0;
-                twcm(t, w) -= 1.0;
-                tdcm(t, d) -= 1.0;
-
-                //double totprob = 0.0;
-                //for(std::size_t i = 0; i < n_topics; ++i) {
-                //    probs[i] = ((twcm(i,w) + beta) * (tdcm(i,d) + alpha)) / (ztot[i] + wbeta);
-                //    totprob += probs[i];
-                //}
-
-                probs = ((blaze::column(twcm, w) + beta) * (blaze::column(tdcm,d) + alpha)) / (ztot + wbeta);
-                const double totprob = blaze::sum(probs);
-                const double maxprob = totprob * drand48();
-                std::size_t nt = 0;
-                double curprob = probs[nt];
-
-                while(curprob < maxprob) {
-                    ++nt;
-                    curprob += probs[nt];
-                }
-
-                nt = (nt >= n_topics) ? (nt % n_topics) : nt;
-
-                (*token_itr) = nt;
-                ztot[nt] += 1.0;
-                twcm(nt, w) += 1.0;
-                tdcm(nt, d) += 1.0;
-                ++token_itr;
-            }
-        }
-    }
-}
-
-void train_lda(CompressedMatrix<double> const& dwcm,
-               DynamicMatrix<double> & tdcm,
-               DynamicMatrix<double> & twcm,
-               std::vector<std::size_t> & tokens,
-               const std::size_t n_topics, const std::size_t iterations, const double alpha, const double beta) {
-
-    // build randomized topic-document-count-matrix and topic-word-count-matrix
-    //
-    {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<std::size_t> dis(0, n_topics-1);
-
-        const std::size_t n_docs = dwcm.rows();
-        const std::size_t n_words = dwcm.columns();
-
-        std::vector<std::size_t>::iterator token_itr = tokens.begin();
-
-        for(std::size_t d = 0; d < n_docs; ++d) {
-            const auto dwcm_end = dwcm.end(d);
-            for(CompressedMatrix<double, blaze::rowMajor>::ConstIterator it = dwcm.begin(d); it != dwcm_end; ++it) {
-                const std::size_t w = it->index();
-                const std::size_t k_max = static_cast<std::size_t>(std::floor(it->value()));
-                for(std::size_t k = 0; k < k_max; k++) {
-                    const std::size_t top = dis(gen);
-                    (*token_itr) = top;
-                    tdcm(top, d) += 1.0;
-                    twcm(top, w) += 1.0;
-                    ++token_itr;
-                }
-            }
-        }
-    }
-
-    DynamicVector<double> ztot(n_topics, 0.0);
-    DynamicVector<double> probs(n_topics, 0.0);
-    const double N = static_cast<double>(tokens.size());
-
-    for(std::size_t i = 0; i < iterations; ++i) {
-        ztot = blaze::sum<blaze::rowwise>(twcm);
-        gibbs(dwcm, tdcm, twcm, tokens, ztot, probs, n_topics, N, alpha, beta);
-    }
-}
 
 int main(int argc, char ** argv) {
 
@@ -223,7 +117,6 @@ int main(int argc, char ** argv) {
             return 1;
         }
     }
-
 
     std::unordered_map<std::string, std::size_t> vocabulary;
 
