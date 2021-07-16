@@ -117,7 +117,7 @@ void distpar_train_lda(const std::size_t n_locales,
         // combine global differences
         //
         hpx::future< DynamicMatrix<double> > overall_result =
-            hpx::collectives::all_reduce(all_reduce_direct_client, twcm_tmp, std::plus<DynamicMatrix<double>>{});
+            hpx::collectives::all_reduce(all_reduce_direct_client, twcm_tmp, adder);
 
         twcm_tmp = overall_result.get();
 
