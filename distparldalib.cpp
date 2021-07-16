@@ -78,7 +78,9 @@ void distpar_train_lda(const std::size_t n_locales,
     std::vector< DynamicVector<double> > ztot(n_threads);
     std::vector< DynamicVector<double> > probs(n_threads);
 
-    DynamicMatrix<double> twcm_base(twcm[0].rows(), twcm[0].columns(), 0.0); 
+    DynamicMatrix<double> twcm_base(twcm[0].rows(), twcm[0].columns(), 0.0);
+    DynamicMatrix<double> twcm_tmp(twcm[0].rows(), twcm[0].columns(), 0.0);
+
     twcm_base = hpx::reduce(std::begin(twcm), std::end(twcm), twcm_base, adder);
 
     for(const std::size_t ti : thread_idx) {
@@ -108,13 +110,25 @@ void distpar_train_lda(const std::size_t n_locales,
             twcm[i] -= twcm_base;
         });
 
-        twcm_base = hpx::reduce(std::begin(twcm), std::end(twcm), twcm_base, adder);
+        // store local differences
+        //
+        twcm_tmp = hpx::reduce(std::begin(twcm), std::end(twcm), twcm_tmp, adder);
 
+        // combine global differences
+        //
         hpx::future< DynamicMatrix<double> > overall_result =
-            hpx::collectives::all_reduce(all_reduce_direct_client, twcm_base, std::plus<DynamicMatrix<double>>{});
+            hpx::collectives::all_reduce(all_reduce_direct_client, twcm_tmp, std::plus<DynamicMatrix<double>>{});
 
-        twcm_base = overall_result.get();
+        twcm_tmp = overall_result.get();
 
+        // add totall differences into local base value
+        //
+        twcm_base += twcm_tmp;
+
+        // update all threads
+        //
         std::fill(std::begin(twcm), std::end(twcm), twcm_base);
+
+        twcm_tmp = 0.0;
     }
 }
