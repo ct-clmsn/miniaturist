@@ -11,8 +11,13 @@ The following implementations are provided:
 
 * A sequential implementation (lda)
 * A parallel implementation (parlda)
-* A distributed, parallel, implementation (distparlda)
+* A parallel, distributed memory implementation (distparlda)
 * A plugin for the Phylanx distributed array toolkit
+
+The following tools are provided:
+
+* A sequential program to compute the vocabulary set found in all documents (vocab)
+* A distributed memory program to compute the vocabulary set found in all documents (distvocab)
 
 The implementation uses a modified version of the collapsed gibbs
 sampler as defined by Newman, Asuncion, Smyth, and Welling.
