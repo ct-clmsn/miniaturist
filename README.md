@@ -4,10 +4,10 @@
 <!--   file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)        -->
 # [Miniaturist](https://github.com/ct-clmsn/miniaturist)
 
-This project provides an implementation of a distributed
-memory latent dirichlet allocation algorithm found [here](https://www.ics.uci.edu/~asuncion/software/fast.htm).
+This project provides implementations of the latent dirichlet allocation
+algorithm found [here](https://www.ics.uci.edu/~asuncion/software/fast.htm).
 
-Provided in this package are the following:
+The following implementations are provided:
 
 * A sequential implementation (lda)
 * A parallel implementation (parlda)
