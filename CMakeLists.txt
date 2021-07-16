@@ -146,3 +146,35 @@ target_compile_options(distparlda PUBLIC ${ICUUC_CFLAGS_OTHER})
 target_link_libraries(distparlda ${OPENSSL_LIBRARIES})
 target_link_directories(distparlda PUBLIC ${OPENSSL_LIBRARY_DIRS})
 target_include_directories(distparlda PUBLIC ${OPENSSL_INCLUDE_DIRS})
+
+add_executable(vocab jch.cpp documents.cpp vocab.cpp)
+
+target_compile_options(vocab PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
+target_link_libraries(vocab -lstdc++fs)
+
+target_link_libraries(vocab ${LAPACK_LIBRARIES})
+target_link_directories(vocab PUBLIC ${LAPACK_LIBRARY_DIRS})
+target_include_directories(vocab PUBLIC ${LAPACK_INCLUDE_DIRS})
+
+target_link_libraries(vocab ${BLAS_LIBRARIES})
+target_link_directories(vocab PUBLIC ${BLAS_LIBRARY_DIRS})
+target_include_directories(vocab PUBLIC ${BLAS_INCLUDE_DIRS})
+
+target_link_libraries(vocab ${ICU18N_LIBRARIES})
+target_link_directories(vocab PUBLIC ${ICU18N_LIBRARY_DIRS})
+target_include_directories(vocab PUBLIC ${ICU18N_INCLUDE_DIRS})
+target_compile_options(vocab PUBLIC ${ICU18N_CFLAGS_OTHER})
+
+target_link_libraries(vocab ${ICUIO_LIBRARIES})
+target_link_directories(vocab PUBLIC ${ICUIO_LIBRARY_DIRS})
+target_include_directories(vocab PUBLIC ${ICUIO_INCLUDE_DIRS})
+target_compile_options(vocab PUBLIC ${ICUIO_CFLAGS_OTHER})
+
+target_link_libraries(vocab ${ICUUC_LIBRARIES})
+target_link_directories(vocab PUBLIC ${ICUUC_LIBRARY_DIRS})
+target_include_directories(vocab PUBLIC ${ICUUC_INCLUDE_DIRS})
+target_compile_options(vocab PUBLIC ${ICUUC_CFLAGS_OTHER})
+
+target_link_libraries(vocab ${OPENSSL_LIBRARIES})
+target_link_directories(vocab PUBLIC ${OPENSSL_LIBRARY_DIRS})
+target_include_directories(vocab PUBLIC ${OPENSSL_INCLUDE_DIRS})
