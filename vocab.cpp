@@ -10,6 +10,8 @@
 #include <cmath>
 #include <cstdint>
 #include <iostream>
+#include <unistd.h>
+#include <getopt.h>
 
 #include <unicode/unistr.h>
 
@@ -20,13 +22,46 @@ namespace fs = std::experimental::filesystem;
 int main(int argc, char ** argv) {
 
     UnicodeString regexp(u"[\\p{L}\\p{M}]+");
-    fs::path pth("./corpus");
+    fs::path pth{}; //("./corpus");
 
-    const std::size_t n_threads = 4;
-    const std::size_t n_topics = 16;
-    const std::size_t iterations = 200;
-    const double alpha = 0.1;
-    const double beta = 0.01;
+    {
+        bool halt = false;
+        while(!halt) {
+            int option_index = 0;
+            static struct option long_options[] =
+            {
+                {"corpus_dir", required_argument, NULL, 'c' },
+                {"regex",  optional_argument,     NULL, 'r' },
+                {NULL,      0,                    NULL,  0 }
+            };
+
+            int c = getopt_long(argc, argv, "c:r:", long_options, &option_index);
+            if(c == -1) {
+                halt = true;
+            }
+            else {
+                switch(c) {
+                    case 'c':
+                    {                                                                                                                                                                               std::string carg{optarg};
+                        pth = fs::path{carg};                                                                                                                                                       break;                                                                                                                                                                  }
+                    case 'r':
+                    {                                                                                                                                                                               regexp = UnicodeString::fromUTF8(std::string{optarg});
+                    }
+                }
+            }
+        }
+
+        bool exit = false;
+
+        if(pth.string().size() < 1) {
+            std::cerr << "Please specify '--vocab_list=vocabulary-file'" << std::endl;
+            exit = true;
+        }
+
+        if(exit) {
+            return 1;
+        }
+    }
 
     std::unordered_map<std::string, std::size_t> vocabulary;
 
