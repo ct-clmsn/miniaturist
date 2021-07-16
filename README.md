@@ -52,13 +52,13 @@ PATH_TO_HPX_CMAKEFILE=/usr/lib/cmake/HPX
 
 ## How To Use
 
-Program names:
+Topic Modeling Program names:
 
 * lda, single node, sequential (no threads), implementation
 * parlda, single node, parallel, implementation
 * distparlda, distributed (multi-node), parallel, implementation
 
-Command line arguments for all programs:
+Command line arguments for all topic modeling programs:
 
 * --num_topics=[enter an unsigned integer value for number of topics], required
 * --vocab_list=[enter a valid path to the file containing the vocabulary list], required
@@ -76,6 +76,16 @@ Additional command line arguments for distparlda:
 
 * --hpx:threads=[enter an unsigned integer value for number of threads], optional
 * --hpx:nodes=[enter an unsigned integer value for number of threads], optional
+
+Vocabulary Building Program names:
+
+* vocab, single node, sequential (no thread), vocabulary builder
+* distvocab, distributed, sequential (no thread), vocabulary builder
+
+Command line arguments for all vocabulary programs:
+
+* --corpus_dir=[enter a valid path to the directory containing the training corpus], required
+* --regex=[enter a regular expression], default [\p{L}\p{M}]+
 
 ## Implementation Notes
 
