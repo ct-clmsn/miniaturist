@@ -116,8 +116,8 @@ The most time-consuming portion of each implementation is the creation of the sp
 matrix which stores the document-term matrix. To accelerate the creaton of the matrix,
 it is strongly encouraged that a user spends a fair amount of time studying the corpus
 to identify a reasonably sized vocabulary set. The larger the vocabulary set the sparser
-the document-term matrix becomes. There is a direct correlation between the performance
-each implementation and the size of the vocabulary set.
+the document-term matrix becomes. There is a direct correlation between each implementation's 
+performance and the size of the vocabulary set.
 
 ## HPX Compilation Flags
 
