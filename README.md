@@ -59,13 +59,13 @@ file that explain what needs to be modified.
 change directory into 'build'. At this point the user will need to type
 something like the following:
 
-cmake -Dblaze_DIR=<PATH_TO_BLAZE_CMAKEFILE> -DHPX_DIR=<PATH_TO_HPX_CMAKEFILE> ..
+`cmake -Dblaze_DIR=<PATH_TO_BLAZE_CMAKEFILE> -DHPX_DIR=<PATH_TO_HPX_CMAKEFILE> ..`
 
 These are possible directories where the blaze and hpx cmakefiles can
 be found:
 
-PATH_TO_BLAZE_CMAKEFILE=/usr/share/blaze/cmake 
-PATH_TO_HPX_CMAKEFILE=/usr/lib/cmake/HPX
+`PATH_TO_BLAZE_CMAKEFILE=/usr/share/blaze/cmake`
+`PATH_TO_HPX_CMAKEFILE=/usr/lib/cmake/HPX`
 
 ## How To Use
 
