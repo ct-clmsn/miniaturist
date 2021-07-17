@@ -4,7 +4,7 @@
 <!--   file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)        -->
 # [miniaturist](https://github.com/ct-clmsn/miniaturist)
 
-This project provides implementations of the latent dirichlet allocation
+This project provides implementations of a Latent Dirichlet Allocation
 algorithm found [here](https://www.ics.uci.edu/~asuncion/software/fast.htm).
 Latent Dirichlet Allocation is colloquially called "topic modeling". This
 project offers topic modeling capabilities that work as a sequential program,
