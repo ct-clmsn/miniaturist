@@ -64,8 +64,8 @@ something like the following:
 These are possible directories where the blaze and hpx cmakefiles can
 be found:
 
-`PATH_TO_BLAZE_CMAKEFILE=/usr/share/blaze/cmake`
-`PATH_TO_HPX_CMAKEFILE=/usr/lib/cmake/HPX`
+* `PATH_TO_BLAZE_CMAKEFILE=/usr/share/blaze/cmake`
+* `PATH_TO_HPX_CMAKEFILE=/usr/lib/cmake/HPX`
 
 ## How To Use
 
