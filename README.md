@@ -168,6 +168,7 @@ and the license terms can be found in the file 'LICENSE'.
 
 ## Special Thanks
 
+* D. Newman, A. Asuncion, P. Smyth, M. Welling. "Distributed Algorithms for Topic Models." JMLR 2009.
 * STE||AR Group ([STE||AR HPX](https://github.com/STEllAR-GROUP/hpx) & [Phylanx](https://github.com/STEllAR-GROUP/phylanx))
 * Blaze C++ Library ([Blaze](https://bitbucket.org/blaze-lib/blaze/src/master/))
 * Erlend Hamberg (Jump Consistency Hash)
