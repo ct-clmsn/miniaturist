@@ -16,7 +16,7 @@ LIB_LAPACK_DIR=
 LIB_OPENSSL_DIR=
 LIB_DIR=$(LIB_BLAS_DIR) $(LIB_LAPACK_DIR) $(LIB_OPENSSL_DIR)
 
-all: vocab distparldalib.o parldalib.o ldalib.o gibbs.o documents.o results.o
+all: distvocab vocab distparldalib.o parldalib.o ldalib.o gibbs.o documents.o results.o
 	g++ -O3 -std=c++17 -mavx -o lda $(INC_DIR) $(LIB_DIR) `pkg-config icu-i18n icu-io icu-uc --cflags` -DBLAZE_USE_VECTORIZATION=1 -DBLAZE_BLAS_MODE=1 lda.cpp jch.o documents.o results.o gibbs.o ldalib.o -lstdc++fs -lssl -lcrypto -lblas -llapack `pkg-config icu-i18n icu-io icu-uc --libs`
 	g++ -O3 -std=c++17 -mavx -o parlda $(INC_DIR) $(LIB_DIR) `pkg-config icu-i18n icu-io icu-uc --cflags` `pkg-config hpx_application --cflags` -DBLAZE_USE_VECTORIZATION=1 -DBLAZE_BLAS_MODE=1 parlda.cpp jch.o documents.o results.o gibbs.o parldalib.o -lstdc++fs -lssl -lcrypto -lblas -llapack `pkg-config icu-i18n icu-io icu-uc --libs` `pkg-config hpx_application --libs`
 	g++ -O3 -std=c++17 -mavx -o distparlda $(INC_DIR) $(LIB_DIR) `pkg-config icu-i18n icu-io icu-uc --cflags` `pkg-config hpx_application --cflags` -DBLAZE_USE_VECTORIZATION=1 -DBLAZE_BLAS_MODE=1 distparlda.cpp jch.o documents.o results.o gibbs.o distparldalib.o -lstdc++fs -lssl -lcrypto -lblas -llapack `pkg-config icu-i18n icu-io icu-uc --libs` `pkg-config hpx_application --libs` -lhpx_iostreams
@@ -59,3 +59,4 @@ clean:
 	rm lda
 	rm distparlda
 	rm vocab
+	rm distvocab
