@@ -20,8 +20,8 @@ The following implementations are provided:
 
 The following tools are provided:
 
-* vocab - a sequential program to compute the vocabulary set found in all documents
-* distvocab - a distributed memory program to compute the vocabulary set found in all documents
+* vocab - a sequential program to compute the vocabulary set found in all documents of a corpus
+* distvocab - a distributed memory program to compute the vocabulary set found in all documents of a corpus
 
 The implementation uses a modified version of the collapsed gibbs
 sampler as defined by Newman, Asuncion, Smyth, and Welling.
