@@ -123,8 +123,8 @@ performance and the size of the vocabulary set.
 
 If you use the vocabulary building tools with a specific regular expression in mind, make
 sure to use the same regular expression when invoking lda, parlda, or distparlda. Consistent
-use of regular expressions for parsing text when building the vocabulary and when modeling
-is important for successful program execution.
+use of regular expressions parsing text when building the vocabulary and when modeling is
+important for successful program execution.
 
 ## HPX Compilation Flags
 
