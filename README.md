@@ -151,7 +151,7 @@ in a comment at the top of the file 'jch.hpp'.
 terms can be found in the file 'MIT_LICENSE'. The author is referenced
 in a comment at the top of the file 'bloomfilter.hpp'.
 
-* The remainder of the source code in this project is Boost Licensed
+* The remainder of the source code in this project is [Boost Licensed](https://www.boost.org/users/license.html)
 and the license terms can be found in the file 'LICENSE'.
 
 ## Dependencies
