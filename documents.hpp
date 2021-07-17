@@ -44,6 +44,8 @@ std::size_t document_path_to_inverted_indices(std::vector<fs::path>::iterator & 
 
 std::size_t document_path_to_inverted_index(std::vector<fs::path>::iterator & beg, std::vector<fs::path>::iterator & end, UnicodeString & regexp, inverted_index_t & ii, std::unordered_map<std::string, std::size_t> const& voc);
 
+std::size_t document_path_to_inverted_index(std::vector<fs::path>::iterator & beg, std::vector<fs::path>::iterator & end, UnicodeString & regexp, inverted_index_t & ii);
+
 void inverted_index_to_matrix(std::unordered_map<std::string, std::size_t> const & vocab, inverted_index_t const& idx, const std::size_t doc_count, const std::size_t entry_count, CompressedMatrix<double> & mat, const bool debug=false);
 
 void matrix_to_vector(CompressedMatrix<double> const& mat, std::vector<std::size_t> & tokens);

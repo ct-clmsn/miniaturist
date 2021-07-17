@@ -7,8 +7,6 @@
 #include <hpx/config.hpp>
 #if !defined(HPX_COMPUTE_DEVICE_CODE)
 #include <hpx/hpx.hpp>
-#include <hpx/hpx_init.hpp>
-#include <hpx/iostream.hpp>
 #include <hpx/modules/collectives.hpp>
 #include <hpx/numeric.hpp>
 #include <hpx/algorithm.hpp>
@@ -99,7 +97,6 @@ int hpx_main(hpx::program_options::variables_map & vm) {
             const std::size_t chunk_sz = n_paths / n_locales;
             const std::size_t base = locality_id * chunk_sz;
             const std::tuple<std::size_t, std::size_t> locale_dp{base, ( locality_id != (n_locales-1) ) ? (base + chunk_sz) : n_paths};
-            //const std::tuple<std::size_t, std::size_t> locale_dp{base, base + chunk_sz + (( locality_id != (n_locales-1) ) ? 0 : (n_paths % n_locales))};
             const std::size_t locale_doc_diff = std::get<1>(locale_dp)-std::get<0>(locale_dp);
             paths.resize(locale_doc_diff);
             std::copy_n(std::begin(locale_paths)+std::get<0>(locale_dp), locale_doc_diff, std::begin(paths));

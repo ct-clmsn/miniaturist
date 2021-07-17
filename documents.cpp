@@ -19,8 +19,8 @@
 #include <blaze/Math.h>
 #include <openssl/ssl.h>
 
-#include "bloomfilter.hpp"
 #include "jch.hpp"
+#include "bloomfilter.hpp"
 #include "documents.hpp"
 
 using namespace icu_69;
@@ -510,6 +510,51 @@ std::size_t document_path_to_inverted_index(std::vector<fs::path>::iterator & be
 
     return entry_count;
 }
+
+std::size_t document_path_to_inverted_index(std::vector<fs::path>::iterator & beg, std::vector<fs::path>::iterator & end, UnicodeString & regexp, inverted_index_t & ii) {
+    std::vector<UnicodeString> files_content;
+    read_file_content(beg, end, files_content);
+
+    UErrorCode status = U_ZERO_ERROR;
+    std::unique_ptr<RegexMatcher> matcher{ new RegexMatcher(regexp, 0, status) };
+    std::size_t fc_count = 0;
+    std::size_t entry_count = 0;
+    const auto ii_end = ii.end();
+
+    for(auto & fc : files_content) {
+        matcher->reset(fc);
+
+        while(matcher->find()) {
+            const auto beg = matcher->start(status);
+            const auto end = matcher->end(status);
+
+            auto token = fc.tempSubString(beg, end-beg);
+
+            std::string matched_token;
+            token.toUTF8String(matched_token);
+
+            const auto idx = ii.find(matched_token);
+            if( idx != ii_end ) {
+                if( idx->second.find(fc_count) != idx->second.end() ) {
+                    ++(idx->second[fc_count]);
+                }            
+                else {
+                    idx->second[fc_count] = 1;
+                    ++entry_count;
+                }
+            }
+            else {
+                ii[matched_token][fc_count] = 1;
+                ++entry_count;
+            }
+        }
+
+        ++fc_count;
+    }
+
+    return entry_count;
+}
+
 
 void matrix_to_vector(CompressedMatrix<double> const& mat, std::vector<std::size_t> & tokens) {
     const std::size_t wcount = static_cast<std::size_t>(std::floor(blaze::sum(mat)));
