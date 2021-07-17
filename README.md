@@ -32,10 +32,13 @@ use of this implementation.
 
 The vocabulary building tools print out a set of words encountered during
 1 linear traversal of the documents. All vocabulary building tools print
-results to stdout (the terminal). The distributed vocabulary building tool
-prints to the stdout of each machine it is running upon; it is suggested
-that users pipe the output of the distributed vocabulary building tool to
-a distributed file system, or in a /tmp directory that can be remotely
+results to stdout (the terminal).
+
+The distributed vocabulary building tool prints to the stdout of each
+machine it is running upon; it is suggested that users pipe the output
+of the distributed vocabulary building tool to a distributed filesystem
+using a filename that is unique to the locality identifier (integer) of
+the program instance, or in a /tmp directory that can be remotely
 accessible and copied from.
 
 ## How To Build
