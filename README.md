@@ -13,15 +13,15 @@ in a cloud or on High Performance Computing (HPC)/Supercomputing systems.
 
 The following implementations are provided:
 
-* A sequential implementation (lda)
-* A parallel implementation (parlda)
-* A parallel, distributed memory implementation (distparlda)
+* lda - the sequential implementation
+* parlda - the parallel implementation
+* distparlda - the parallel, distributed memory implementation
 * A plugin for the Phylanx distributed array toolkit
 
 The following tools are provided:
 
-* A sequential program to compute the vocabulary set found in all documents (vocab)
-* A distributed memory program to compute the vocabulary set found in all documents (distvocab)
+* vocab - a sequential program to compute the vocabulary set found in all documents
+* distvocab - a distributed memory program to compute the vocabulary set found in all documents
 
 The implementation uses a modified version of the collapsed gibbs
 sampler as defined by Newman, Asuncion, Smyth, and Welling.
