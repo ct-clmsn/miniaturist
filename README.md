@@ -119,6 +119,13 @@ to identify a reasonably sized vocabulary set. The larger the vocabulary set the
 the document-term matrix becomes. There is a direct correlation between each implementation's 
 performance and the size of the vocabulary set.
 
+## Usage Notes
+
+If you use the vocabulary building tools with a specific regular expression in mind, make
+sure to use the same regular expression when invoking lda, parlda, or distparlda. Consistent
+use of regular expressions for parsing text when building the vocabulary and when modeling
+is important for successful program execution.
+
 ## HPX Compilation Flags
 
 Take time to review the following build options for HPX [here](https://hpx-docs.stellar-group.org/latest/html/manual/building_hpx.html).
