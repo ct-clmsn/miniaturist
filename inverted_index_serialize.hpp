@@ -2,8 +2,8 @@
 //
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
-
-#if !defined(INVERTED_INDEX_SERIALIZATION_HPP)
+#pragma once
+#ifndef INVERTED_INDEX_SERIALIZATION_HPP
 #define INVERTED_INDEX_SERIALIZATION_HPP
 
 #include <hpx/serialization/unordered_map.hpp>
