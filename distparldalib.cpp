@@ -83,7 +83,7 @@ void distpar_train_lda(const std::size_t n_locales,
 
     twcm_base = hpx::reduce(std::begin(twcm), std::end(twcm), twcm_base, adder);
 
-    // accumulate and distribute the global topic-word-count-matrix counts
+    // accumulate and distribute the global topic-word-count-matrix
     //
     {
         hpx::future< DynamicMatrix<double> > overall_result =
