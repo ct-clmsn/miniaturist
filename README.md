@@ -4,8 +4,8 @@
 <!--   file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)        -->
 # [miniaturist](https://github.com/ct-clmsn/miniaturist)
 
-This project provides implementations of a Latent Dirichlet Allocation
-algorithm found [here](https://www.ics.uci.edu/~asuncion/software/fast.htm).
+This project provides implementations of a Latent Dirichlet
+Allocation algorithm found [here](https://www.ics.uci.edu/~asuncion/software/fast.htm).
 Latent Dirichlet Allocation is colloquially called "topic modeling". This
 project offers topic modeling capabilities that work as a sequential program,
 a parallel (threaded) program, and a distributed program that can be executed
@@ -20,8 +20,10 @@ The following implementations are provided:
 
 The following tools are provided:
 
-* vocab - a sequential program to compute the vocabulary set found in all documents of a corpus
-* distvocab - a distributed memory program to compute the vocabulary set found in all documents of a corpus
+* vocab - a sequential program to compute the vocabulary set found in all
+documents of a corpus
+* distvocab - a distributed memory program to compute the vocabulary set
+found in all documents of a corpus
 
 The implementation uses a modified version of the collapsed gibbs
 sampler as defined by Newman, Asuncion, Smyth, and Welling.
