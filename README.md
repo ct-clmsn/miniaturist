@@ -30,6 +30,14 @@ This implementation only scales in the direction of documents.
 Users are required to provide a vocabulary list in order to make
 use of this implementation.
 
+The vocabulary building tools print out a set of words encountered during
+1 linear traversal of the documents. All vocabulary building tools print
+results to stdout (the terminal). The distributed vocabulary building tool
+prints to the stdout of each machine it is running upon; it is suggested
+that users pipe the output of the distributed vocabulary building tool to
+a distributed file system, or in a /tmp directory that can be remotely
+accessible and copied from.
+
 ## How To Build
 
 To build this software, users are provided 2 options: a handrolled
