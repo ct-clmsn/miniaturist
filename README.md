@@ -162,7 +162,7 @@ and the license terms can be found in the file 'LICENSE'.
 
 ## Special Thanks
 
-* STE||AR Group ([STE||AR HPX](https://github.com/STEllAR-GROUP/hpx))
+* STE||AR Group ([STE||AR HPX](https://github.com/STEllAR-GROUP/hpx) & [Phylax](https://github.com/STEllAR-GROUP/phylanx))
 * Klaus Iglberger ([Blaze](https://bitbucket.org/blaze-lib/blaze/src/master/))
 * Erlend Hamberg (Jump Consistency Hash)
 * Daan Kolthof (Bloom Filter)
