@@ -37,9 +37,9 @@ results to stdout (the terminal).
 The distributed vocabulary building tool prints to the stdout of each
 machine it is running upon; it is suggested that users pipe the output
 of the distributed vocabulary building tool to a distributed filesystem
-using a filename that is unique to the locality identifier (integer) of
-the program instance, or in a /tmp directory that can be remotely
-accessible and copied from.
+using a filename that is: unique to the locality identifier (integer) of
+the program instance, or in a /tmp directory that is remotely
+accessible for a file copy (scp).
 
 ## How To Build
 
