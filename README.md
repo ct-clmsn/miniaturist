@@ -16,6 +16,9 @@ The following implementations are provided:
 * lda - the sequential implementation
 * parlda - the parallel implementation
 * distparlda - the parallel, distributed memory implementation
+
+Optional extensions provided:
+
 * A plugin for the [Phylanx](https://github.com/STEllAR-GROUP/phylanx) distributed array toolkit
 * [Python](https://www.python.org/) bindings
 * [HDFS](https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html) filesystem support (the Cloud support)
@@ -174,6 +177,12 @@ and the license terms can be found in the file 'LICENSE'.
 * OpenSSL
 * pkg-config
 * cmake >= 3.17
+
+## Optional Dependencies
+
+* Phylanx
+* pybind11 (Python support)
+* libhdfs3
 
 ## Special Thanks
 
