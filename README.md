@@ -16,7 +16,9 @@ The following implementations are provided:
 * lda - the sequential implementation
 * parlda - the parallel implementation
 * distparlda - the parallel, distributed memory implementation
-* A plugin for the Phylanx distributed array toolkit
+* A plugin for the [Phylanx](https://github.com/STEllAR-GROUP/phylanx) distributed array toolkit
+* [Python](https://www.python.org/) bindings
+* [HDFS](https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html) filesystem support (the Cloud support)
 
 The following tools are provided:
 
