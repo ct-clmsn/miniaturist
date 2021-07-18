@@ -76,7 +76,7 @@ target_include_directories(lda PUBLIC ${OPENSSL_INCLUDE_DIRS})
 add_executable(parlda jch.cpp documents.cpp results.cpp gibbs.cpp parldalib.cpp parlda.cpp)
 
 target_compile_options(parlda PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
-target_compile_definitions(parlda PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_SHARED_MEMORY_PARALLELIZATION)
+target_compile_definitions(parlda PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_SHARED_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
 target_link_libraries(parlda -lstdc++fs)
 
 target_link_libraries(parlda ${HPX_LIBRARIES})
@@ -113,7 +113,7 @@ target_include_directories(parlda PUBLIC ${OPENSSL_INCLUDE_DIRS})
 add_executable(distparlda jch.cpp documents.cpp results.cpp gibbs.cpp distparldalib.cpp distparlda.cpp)
 
 target_compile_options(distparlda PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
-target_compile_definitions(distparlda PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_SHARED_MEMORY_PARALLELIZATION)
+target_compile_definitions(distparlda PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_SHARED_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
 target_link_libraries(distparlda -lstdc++fs)
 
 target_link_libraries(distparlda ${HPX_LIBRARIES})
