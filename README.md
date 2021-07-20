@@ -9,14 +9,14 @@ Allocation algorithm found [here](https://www.ics.uci.edu/~asuncion/software/fas
 Latent Dirichlet Allocation is colloquially called "topic modeling". This
 project offers topic modeling capabilities that work as a sequential program,
 a parallel (threaded) program, and a distributed parallel program that can be
-executed in a Cloud or on High Performance Computing (HPC)/Supercomputing systems.
+executed on High Performance Computing (HPC)/Supercomputing systems or a Cloud.
 
 The following implementations are provided:
 
 * lda - the sequential implementation
-* parlda - the parallel implementation
-* distparlda - the parallel, distributed implementation
-* distparldahdfs - parallel, distributed implementation for Clouds ([Hadoop filesystem, HDFS](https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html))
+* parlda - the parallel implementation for multi-core systems
+* distparlda - distributed, parallel, implementation for High Performance Computers (HPC)/Supercomputers
+* distparldahdfs - distributed, parallel, implementation for Clouds ([Hadoop filesystem, HDFS](https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html))
 
 Optional extensions provided:
 
