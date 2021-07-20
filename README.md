@@ -131,8 +131,9 @@ Command line arguments for all vocabulary programs:
 
 This implementation loads the corpus into an inverted index. The inverted index
 is converted into a sparse matrix that is transposed into a document-term matrix.
-The implementation then processes subsets of the document-term matrix in parallel
-chunks. A sparse matrix is used to store the document-term matrix to minimize a
+This step is required to permit the parallel processing of the corpus by document.
+The implementation processes subsets of the document-term matrix in parallel chunks.
+A sparse matrix is used to store the document-term matrix to minimize a
 required O(N^2) algorithmic cost spent traversing the matrix.
 
 The most time-consuming portion of each implementation is the creation of the sparse
