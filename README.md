@@ -16,13 +16,13 @@ The following implementations are provided:
 * lda - the sequential implementation
 * parlda - the parallel implementation
 * distparlda - the parallel, distributed implementation
-* distparldahdfs - parallel, distributed implementation for Hadoop Clouds (HDFS, optional)
+* distparldahdfs - parallel, distributed implementation for Clouds (Hadoop filesystem, HDFS)
 
 Optional extensions provided:
 
 * A plugin for the [Phylanx](https://github.com/STEllAR-GROUP/phylanx) distributed array toolkit
 * [Python](https://www.python.org/) bindings
-* [Hadoop File System](https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html) support (Cloud support)
+* [Hadoop File System/HDFS](https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html) support (Cloud support)
 
 The following tools are provided:
 
