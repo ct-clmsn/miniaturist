@@ -10,7 +10,7 @@
 #include <hpx/include/util.hpp>
 #include <cstddef>
 
-#include "documents.hpp"
+#include "inverted_index.hpp"
 
 namespace hpx { namespace serialization
 {

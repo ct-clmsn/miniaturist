@@ -18,13 +18,12 @@
 #include <unicode/unistr.h>
 #include <blaze/Math.h>
 #include "bloomfilter.hpp"
+#include "inverted_index.hpp"
 
 namespace fs = std::experimental::filesystem;
 using icu_69::UnicodeString;
 using blaze::DynamicMatrix;
 using blaze::CompressedMatrix;
-
-using inverted_index_t = std::unordered_map<std::string, std::unordered_map<std::size_t, std::size_t> >;
 
 void read_content(fs::path const& p, std::vector<UnicodeString> & fcontent);
 

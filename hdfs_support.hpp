@@ -17,7 +17,7 @@
 #include <unicode/unistr.h>
 #include <hdfs/hdfs.h>
 
-#include "documents.hpp"
+#include "inverted_index.hpp"
 
 namespace fs = std::experimental::filesystem;
 

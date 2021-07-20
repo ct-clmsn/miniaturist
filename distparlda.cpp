@@ -17,11 +17,11 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
-//#include <cassert>
 
 #include <unicode/unistr.h>
 #include <blaze/Math.h>
 
+#include "inverted_index.hpp"
 #include "distparldalib.hpp"
 #include "gibbs.hpp"
 #include "documents.hpp"

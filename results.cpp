@@ -82,7 +82,7 @@ void print_document_topics(DynamicMatrix<double> const& tdcm, const std::size_t 
     std::vector<std::size_t> idx(n_topics);
     std::fill(std::begin(idx), std::end(idx), 0);
 
-    const std::size_t ndocs = tdcm.columns();
+    //const std::size_t ndocs = tdcm.columns();
     for(std::size_t d = docbeg; d < docend; ++d) {
         DynamicVector<double, blaze::columnVector> td = blaze::column(tdcm, d);
         //std::cout << "document count\t" << td << '\t';

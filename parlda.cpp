@@ -18,13 +18,13 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
-//#include <cassert>
 
 #include <unicode/unistr.h>
 #include <blaze/Math.h>
 
 #include "parldalib.hpp"
 #include "gibbs.hpp"
+#include "inverted_index.hpp"
 #include "documents.hpp"
 #include "results.hpp"
 

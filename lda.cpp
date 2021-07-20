@@ -16,6 +16,7 @@
 
 #include "ldalib.hpp"
 #include "results.hpp"
+#include "inverted_index.hpp"
 #include "documents.hpp"
 
 using namespace icu_69;
