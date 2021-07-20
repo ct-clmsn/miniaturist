@@ -31,8 +31,8 @@ struct hdfs_context {
     hdfs_context() : builder(nullptr), filesystem(), buffer_size(-1) {}
 
     ~hdfs_context() {
-        hdfsFreeBuilder(builder);
         hdfsDisconnect(filesystem);
+        hdfsFreeBuilder(builder);
     }
 };
 
