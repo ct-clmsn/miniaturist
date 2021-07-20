@@ -202,7 +202,7 @@ and the license terms can be found in the file 'LICENSE'.
 
 * Phylanx
 * pybind11 (Python support)
-* libhdfs3
+* libhdfs3 (Hadoop Filesystem/HDFS support)
 
 ## Special Thanks
 
