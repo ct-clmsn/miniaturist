@@ -18,14 +18,18 @@ The following implementations are provided:
 * distparlda - the parallel, distributed implementation
 * distparldahdfs - parallel, distributed implementation for Hadoop Clouds (HDFS)
 
+Optional extensions provided:
+
+* A plugin for the [Phylanx](https://github.com/STEllAR-GROUP/phylanx) distributed array toolkit
+* [Python](https://www.python.org/) bindings
+* [HDFS](https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html) filesystem support (the Cloud support)
+
 The following tools are provided:
 
 * vocab - a sequential program to compute the vocabulary set found in all
 documents of a corpus
 * distvocab - a distributed memory program to compute the vocabulary set
 found in all documents of a corpus
-* A plugin for the Phylanx distributed array toolkit
-* Python bindings
 
 The implementation uses a modified version of the collapsed gibbs
 sampler as defined by Newman, Asuncion, Smyth, and Welling.
@@ -56,7 +60,8 @@ makefile or cmake.
 
 1) The makefile will need to be modified. There are comments in the
 file that explain what needs to be modified. To make all the programs
-run 'make'. Then run 'make distparldahdfs'.
+run 'make'. Then run 'make distparldahdfs'. If the vocabulary tools
+are required, run'distvocab' and/or 'vocab'.
 
 2) cmake will require creating a directory called 'build'. Users will
 change directory into 'build'. At this point the user will need to type
@@ -191,6 +196,12 @@ and the license terms can be found in the file 'LICENSE'.
 * pkg-config
 * cmake >= 3.17
 * libhdfs3 (optional)
+
+## Optional Dependencies
+
+* Phylanx
+* pybind11 (Python support)
+* libhdfs3
 
 ## Special Thanks
 
