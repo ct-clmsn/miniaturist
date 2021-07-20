@@ -15,8 +15,8 @@ The following implementations are provided:
 
 * lda - the sequential implementation
 * parlda - the parallel implementation
-* distparlda - the parallel, distributed memory implementation
-* A plugin for the Phylanx distributed array toolkit
+* distparlda - the parallel, distributed implementation
+* distparldahdfs - parallel, distributed implementation for Hadoop Clouds (HDFS)
 
 The following tools are provided:
 
@@ -24,6 +24,8 @@ The following tools are provided:
 documents of a corpus
 * distvocab - a distributed memory program to compute the vocabulary set
 found in all documents of a corpus
+* A plugin for the Phylanx distributed array toolkit
+* Python bindings
 
 The implementation uses a modified version of the collapsed gibbs
 sampler as defined by Newman, Asuncion, Smyth, and Welling.
@@ -44,8 +46,8 @@ The distributed vocabulary building tool prints to the stdout of each
 machine it is running upon; it is suggested that users pipe the output
 of the distributed vocabulary building tool to a distributed filesystem
 using a filename that is: unique to the locality identifier (integer) of
-the program instance, or in a /tmp directory that is remotely
-accessible for a file copy (scp).
+the program instance, or into a remote /tmp directory that is accessible
+for a file copy (scp).
 
 ## How To Build
 
@@ -53,7 +55,8 @@ To build this software, users are provided 2 options: a handrolled
 makefile or cmake.
 
 1) The makefile will need to be modified. There are comments in the
-file that explain what needs to be modified.
+file that explain what needs to be modified. To make all the programs
+run 'make'. Then run 'make distparldahdfs'.
 
 2) cmake will require creating a directory called 'build'. Users will
 change directory into 'build'. At this point the user will need to type
@@ -67,6 +70,14 @@ be found:
 * `PATH_TO_BLAZE_CMAKEFILE=/usr/share/blaze/cmake`
 * `PATH_TO_HPX_CMAKEFILE=/usr/lib/cmake/HPX`
 
+Add the following for Cloud (Hadoop File System - HDFS) support:
+
+`cmake -Dblaze_DIR=<PATH_TO_BLAZE_CMAKEFILE> -DHPX_DIR=<PATH_TO_HPX_CMAKEFILE> -Dlibhdfs3_DIR=<PATH_TO_LIBHDFS3_INSTALL> ..`
+
+This is a possible location for libhdfs3.so and hdfs/hdfs.h:
+
+* `PATH_TO_LIBHDFS3_INSTALL=/usr/`
+
 ## How To Use
 
 Topic Modeling Program names:
@@ -74,6 +85,7 @@ Topic Modeling Program names:
 * lda, single node, sequential (no threads), implementation
 * parlda, single node, parallel, implementation
 * distparlda, distributed (multi-node), parallel, implementation
+* distparldahdfs, distributed (multi-node), parallel, HDFS implementation
 
 Command line arguments for all topic modeling programs:
 
@@ -93,6 +105,12 @@ Additional command line arguments for distparlda:
 
 * --hpx:threads=[enter an unsigned integer value for number of threads], optional
 * --hpx:nodes=[enter an unsigned integer value for number of threads], optional
+
+Additional command line arguments for distparldahdfs:
+
+* --hdfs_namenode_address=[enter string], required
+* --hdfs_namenode_port=[unsigned integer for hdfs namenode port], required
+* --hdfs_buffer_size=[unsigned integer buffer size for file reads from hdfs], required
 
 Vocabulary Building Program names:
 
@@ -172,6 +190,7 @@ and the license terms can be found in the file 'LICENSE'.
 * OpenSSL
 * pkg-config
 * cmake >= 3.17
+* libhdfs3 (optional)
 
 ## Special Thanks
 
@@ -180,6 +199,7 @@ and the license terms can be found in the file 'LICENSE'.
 * Blaze C++ Library ([Blaze](https://bitbucket.org/blaze-lib/blaze/src/master/))
 * Erlend Hamberg (Jump Consistency Hash)
 * Daan Kolthof (Bloom Filter)
+* Erik Muttersbach ([libhdfs3](https://github.com/erikmuttersbach/libhdfs3))
 
 ## Author
 

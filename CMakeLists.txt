@@ -41,6 +41,63 @@ endif()
 include("${blaze_DIR}/blaze-config-version.cmake")
 message("Blaze version: " "${PACKAGE_VERSION}")
 
+if(DEFINED libhdfs3_DIR)
+    message("-- libhdfs3 defined: " "${libhdfs3_DIR}")
+    if(EXISTS "${libhdfs3_DIR}/include/hdfs/hdfs.h")
+        message("-- Found libhdfs3.h")
+        if(EXISTS "${libhdfs3_DIR}/lib/libhdfs3.so")
+            message("-- Found libhdfs3.so")
+            add_executable(distparldahdfs jch.cpp documents.cpp hdfs_support.cpp results.cpp gibbs.cpp distparldalib.cpp distparldahdfs.cpp)
+
+            target_compile_options(distparldahdfs PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
+            target_compile_definitions(distparldahdfs PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_SHARED_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
+            target_link_libraries(distparldahdfs -lstdc++fs)
+
+            target_link_libraries(distparldahdfs ${HPX_LIBRARIES})
+            target_link_directories(distparldahdfs PUBLIC ${HPX_LIBRARY_DIRS})
+            target_include_directories(distparldahdfs PUBLIC ${HPX_INCLUDE_DIRS})
+
+            target_link_libraries(distparldahdfs ${LAPACK_LIBRARIES})
+            target_link_directories(distparldahdfs PUBLIC ${LAPACK_LIBRARY_DIRS})
+            target_include_directories(distparldahdfs PUBLIC ${LAPACK_INCLUDE_DIRS})
+
+            target_link_libraries(distparldahdfs ${BLAS_LIBRARIES})
+            target_link_directories(distparldahdfs PUBLIC ${BLAS_LIBRARY_DIRS})
+            target_include_directories(distparldahdfs PUBLIC ${BLAS_INCLUDE_DIRS})
+
+            target_link_libraries(distparldahdfs ${ICU18N_LIBRARIES})
+            target_link_directories(distparldahdfs PUBLIC ${ICU18N_LIBRARY_DIRS})
+            target_include_directories(distparldahdfs PUBLIC ${ICU18N_INCLUDE_DIRS})
+            target_compile_options(distparldahdfs PUBLIC ${ICU18N_CFLAGS_OTHER})
+
+            target_link_libraries(distparldahdfs ${ICUIO_LIBRARIES})
+            target_link_directories(distparldahdfs PUBLIC ${ICUIO_LIBRARY_DIRS})
+            target_include_directories(distparldahdfs PUBLIC ${ICUIO_INCLUDE_DIRS})
+            target_compile_options(distparldahdfs PUBLIC ${ICUIO_CFLAGS_OTHER})
+
+            target_link_libraries(distparldahdfs ${ICUUC_LIBRARIES})
+            target_link_directories(distparldahdfs PUBLIC ${ICUUC_LIBRARY_DIRS})
+            target_include_directories(distparldahdfs PUBLIC ${ICUUC_INCLUDE_DIRS})
+            target_compile_options(distparldahdfs PUBLIC ${ICUUC_CFLAGS_OTHER})
+
+            target_link_libraries(distparldahdfs ${OPENSSL_LIBRARIES})
+            target_link_directories(distparldahdfs PUBLIC ${OPENSSL_LIBRARY_DIRS})
+            target_include_directories(distparldahdfs PUBLIC ${OPENSSL_INCLUDE_DIRS})
+
+            target_link_libraries(distparldahdfs -lhdfs3)
+            target_link_directories(distparldahdfs PUBLIC ${libhdfs3_DIR}/lib)
+            target_include_directories(distparldahdfs PUBLIC ${libhdfs3_DIR}/include)
+
+        else()
+            message("\tlibhdfs3.so not found; distparldahdfs will not be built")
+        endif()
+    else()
+            message("\tlibhdfs3.h not found; distparldahdfs will not be built.")
+    endif()
+else()
+    message("libhdfs3 not defined; distparldahdfs will not be built.")
+endif()
+
 add_executable(lda jch.cpp documents.cpp results.cpp gibbs.cpp ldalib.cpp lda.cpp)
 
 target_compile_options(lda PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
