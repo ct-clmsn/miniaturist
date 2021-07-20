@@ -61,7 +61,7 @@ makefile or cmake.
 1) The makefile will need to be modified. There are comments in the
 file that explain what needs to be modified. To make all the programs
 run 'make'. Then run 'make distparldahdfs'. If the vocabulary tools
-are required, run'distvocab' and/or 'vocab'.
+are required, run 'make distvocab' and/or 'make vocab'.
 
 2) cmake will require creating a directory called 'build'. Users will
 change directory into 'build'. At this point the user will need to type
