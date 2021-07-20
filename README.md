@@ -37,9 +37,10 @@ Significant modifications have been made to the Newman, et al
 treatment in an effort to utilize term-document-matrices as
 the storage structure for document histograms.
 
-This implementation only scales in the direction of documents.
-Users are required to provide a vocabulary list in order to make
-use of this implementation.
+This implementation only scales in the direction of documents. Users
+are required to provide a vocabulary list in order to make use of this
+implementation. Vocabulary lists can be populated with a single file
+containing a 'new-line' delimited list of words, or programmatically.
 
 The vocabulary building tools print out a set of words encountered during
 1 linear traversal of the documents. All vocabulary building tools print
