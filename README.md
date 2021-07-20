@@ -8,7 +8,7 @@ This project provides implementations of a Latent Dirichlet
 Allocation algorithm found [here](https://www.ics.uci.edu/~asuncion/software/fast.htm).
 Latent Dirichlet Allocation is colloquially called "topic modeling". This
 project offers topic modeling capabilities that work as a sequential program,
-a parallel (threaded) program, and a parallel distributed program that can be
+a parallel (threaded) program, and a distributed parallel program that can be
 executed in a Cloud or on High Performance Computing (HPC)/Supercomputing systems.
 
 The following implementations are provided:
