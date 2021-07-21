@@ -142,11 +142,11 @@ int hpx_main(hpx::program_options::variables_map & vm) {
         for(std::size_t i = 0; i < n_locales; ++i) {
 
            if(locality_id == i) {
-               hpx::future<std::vector<inverted_index_t>> f = hpx::collectives::gather_here(all_gather_direct_client, indices[i], hpx::collectives::this_site_arg{locality_id}); 
+               hpx::future<std::vector<inverted_index_t>> f = hpx::collectives::gather_here(all_gather_direct_client, indices[locality_id], hpx::collectives::this_site_arg{locality_id}); 
                fin_indices = f.get();
            }
            else {
-               hpx::future<void> f = hpx::collectives::gather_there(all_gather_direct_client, indices[locality_id], hpx::collectives::this_site_arg{locality_id});
+               hpx::future<void> f = hpx::collectives::gather_there(all_gather_direct_client, indices[i], hpx::collectives::this_site_arg{locality_id});
                f.get();
            }
 
