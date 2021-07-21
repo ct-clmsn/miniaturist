@@ -44,5 +44,6 @@ std::size_t path_to_vector(hdfs_context & ctx, std::string const& p, std::vector
 
 std::size_t document_path_to_inverted_index(hdfs_context & ctx, std::vector<fs::path>::iterator & beg, std::vector<fs::path>::iterator & end, UnicodeString & regexp, inverted_index_t & ii, std::unordered_map<std::string, std::size_t> const& voc);
 
+std::size_t document_path_to_inverted_index(hdfs_context & ctx, std::vector<fs::path>::iterator & beg, std::vector<fs::path>::iterator & end, UnicodeString & regexp, inverted_index_t & ii);
 
 #endif
