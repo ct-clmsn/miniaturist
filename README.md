@@ -206,7 +206,6 @@ and the license terms can be found in the file 'LICENSE'.
 * OpenSSL
 * pkg-config
 * cmake >= 3.17
-* libhdfs3 (optional)
 
 ## Optional Dependencies
 
