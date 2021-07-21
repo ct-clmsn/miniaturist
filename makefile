@@ -30,6 +30,9 @@ hdfs_support.o: hdfs_support.cpp
 distparldahdfs: hdfs_support.o
 	g++ -O3 -std=c++17 -mavx -o distparlda $(INC_DIR) $(LIB_DIR) $(INC_HDFS_DIR) $(LIB_HDFS_DIR) `pkg-config icu-i18n icu-io icu-uc --cflags` `pkg-config hpx_application --cflags` -DBLAZE_USE_VECTORIZATION=1 -DBLAZE_USE_HPX_THREADS=1 -DBLAZE_BLAS_MODE=1 distparlda.cpp jch.o documents.o hdfs_support.o results.o gibbs.o distparldalib.o -lstdc++fs -lssl -lcrypto -lblas -llapack `pkg-config icu-i18n icu-io icu-uc --libs` `pkg-config hpx_application --libs` -lhdfs3 -lhpx_iostreams
 
+distvocabhdfs: distvocabhdfs.cpp hdfs_support.o jch.o
+	g++ -O3 -std=c++17 -mavx -o distvocabhdfs $(INC_DIR) $(LIB_DIR) $(INC_HDFS_DIR) $(LIB_HDFS_DIR) `pkg-config icu-i18n icu-io icu-uc --cflags` `pkg-config hpx_application --cflags` -DBLAZE_USE_VECTORIZATION=1 -DBLAZE_USE_HPX_THREADS=1 -DBLAZE_BLAS_MODE=1 distvocabhdfs.cpp jch.o hdfs_support.o -lstdc++fs -lssl -lcrypto -lblas -llapack `pkg-config icu-i18n icu-io icu-uc --libs` `pkg-config hpx_application --libs` -lhdfs3 -lhpx_iostreams
+
 distvocab: distvocab.cpp documents.o results.o
 	g++ -O3 -std=c++17 -o distvocab `pkg-config icu-i18n icu-io icu-uc --cflags` `pkg-config hpx_application --cflags` jch.o documents.o -lstdc++fs `pkg-config icu-i18n icu-io icu-uc --libs` -lssl -lcrypto `pkg-config hpx_application --libs` distvocab.cpp
 
