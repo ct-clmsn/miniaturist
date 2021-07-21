@@ -172,7 +172,7 @@ int main(int argc, char ** argv) {
         "address to the hdfs namenode server")("hdfs_namenode_port,nnp",
         hpx::program_options::value<std::size_t>(),
         "port number used by the hdfs namenode server")("hdfs_buffer_size,bsz",
-        hpx::program_options::value<std::size_t>(),
+        hpx::program_options::value<std::size_t>()->default_value(1024),
         "size of the buffer used to read data from hdfs");
 
     hpx::init_params params;

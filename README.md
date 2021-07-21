@@ -119,7 +119,7 @@ Additional command line arguments for distparldahdfs:
 
 * --hdfs_namenode_address=[enter string], required
 * --hdfs_namenode_port=[unsigned integer for hdfs namenode port], required
-* --hdfs_buffer_size=[unsigned integer buffer size for file reads from hdfs], required
+* --hdfs_buffer_size=[unsigned integer buffer size for file reads from hdfs], default 1024
 
 Vocabulary Building Program names:
 
@@ -136,7 +136,7 @@ Additional command line arguments for distvocabhdfs:
 
 * --hdfs_namenode_address=[enter string], required
 * --hdfs_namenode_port=[unsigned integer for hdfs namenode port], required
-* --hdfs_buffer_size=[unsigned integer buffer size for file reads from hdfs], required
+* --hdfs_buffer_size=[unsigned integer buffer size for file reads from hdfs], default 1024
 
 ## Implementation Notes
 
