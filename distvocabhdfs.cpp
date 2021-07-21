@@ -41,6 +41,21 @@ int hpx_main(hpx::program_options::variables_map & vm) {
         exit = true;
     }
 
+    if(vm.count("hdfs_namenode_addr") == 0) {
+        std::cerr << "Please specify '--hdfs_namenode_addr=hdfs-namenode-address-string'" << std::endl;
+        exit = true;
+    }
+
+    if(vm.count("hdfs_namenode_port") == 0) {
+        std::cerr << "Please specify '--hdfs_namenode_port=unsigned-integer-value'" << std::endl;
+        exit = true;
+    }
+
+    if(vm.count("hdfs_buffer_size") == 0) {
+        std::cerr << "Please specify '--hdfs_buffer_size=unsigned-integer-value'" << std::endl;
+        exit = true;
+    }
+
     if(exit) {
         return hpx::finalize();
     }
@@ -152,7 +167,13 @@ int hpx_main(hpx::program_options::variables_map & vm) {
 int main(int argc, char ** argv) {
     hpx::program_options::options_description desc("usage: distvocab [options]");                                                                                                  desc.add_options()("regex,re",                                                                                                                                                  hpx::program_options::value<std::string>()->default_value("[\\p{L}\\p{M}]+"),                                                                                               "regex (default: [\\p{L}\\p{M}]+]")("corpus_dir,cd",
         hpx::program_options::value<std::string>(),
-        "directory path containing the corpus to model");
+        "directory path containing the corpus to model")("hdfs_namenode_addr,nna",
+        hpx::program_options::value<std::string>(),
+        "address to the hdfs namenode server")("hdfs_namenode_port,nnp",
+        hpx::program_options::value<std::size_t>(),
+        "port number used by the hdfs namenode server")("hdfs_buffer_size,bsz",
+        hpx::program_options::value<std::size_t>(),
+        "size of the buffer used to read data from hdfs");
 
     hpx::init_params params;
     params.desc_cmdline = desc;

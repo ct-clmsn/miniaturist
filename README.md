@@ -29,6 +29,8 @@ The following tools are provided:
 documents of a corpus
 * distvocab - a distributed memory program to compute the vocabulary set
 found in all documents of a corpus
+* distvocabhdfs - a distributed memory program to compute the vocabulary set
+found in all documents of a corpus on HDFS
 
 The implementation uses a modified version of the collapsed gibbs
 sampler as defined by Newman, Asuncion, Smyth, and Welling.
@@ -39,8 +41,9 @@ the storage structure for document histograms.
 
 This implementation only scales in the direction of documents. Users
 are required to provide a vocabulary list in order to make use of this
-implementation. Vocabulary lists can be populated with a single file
-containing a 'new-line' delimited list of words, or programmatically.
+implementation. Vocabulary lists can be populated programmatically or
+loaded into a modeling program with a file containing a 'new-line'
+delimited list of words.
 
 The vocabulary building tools print out a set of words encountered during
 1 linear traversal of the documents. All vocabulary building tools print
@@ -121,11 +124,18 @@ Vocabulary Building Program names:
 
 * vocab, single node, sequential (no thread), vocabulary builder
 * distvocab, distributed, sequential (no thread), vocabulary builder
+* distvocabhdfs, distributed, sequential (no thread), vocabulary builder for HDFS
 
 Command line arguments for all vocabulary programs:
 
 * --corpus_dir=[enter a valid path to the directory containing the training corpus], required
 * --regex=[enter a regular expression], default [\p{L}\p{M}]+
+
+Additional command line arguments for distvocabhdfs:
+
+* --hdfs_namenode_address=[enter string], required
+* --hdfs_namenode_port=[unsigned integer for hdfs namenode port], required
+* --hdfs_buffer_size=[unsigned integer buffer size for file reads from hdfs], required
 
 ## Implementation Notes
 
