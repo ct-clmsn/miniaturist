@@ -138,6 +138,12 @@ Additional command line arguments for distvocabhdfs:
 * --hdfs_namenode_port=[unsigned integer for hdfs namenode port], required
 * --hdfs_buffer_size=[unsigned integer buffer size for file reads from hdfs], default 1024
 
+Topic Modeling Libraries:
+
+* libldalib.a, ldalib.hpp single node, sequential (no threads), implementation
+* libparldalib.a, parldalib.hpp single node, parallel, implementation
+* libdistparldalib.a, distparldalib.hpp distributed (multi-node), parallel, implementation
+
 ## Implementation Notes
 
 This implementation loads the corpus into an inverted index. The inverted index
