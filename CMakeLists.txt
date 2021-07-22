@@ -41,13 +41,28 @@ endif()
 include("${blaze_DIR}/blaze-config-version.cmake")
 message("Blaze version: " "${PACKAGE_VERSION}")
 
+add_library(ldaobj OBJECT jch.cpp documents.cpp results.cpp gibbs.cpp)
+target_include_directories(ldaobj PUBLIC ${LAPACK_INCLUDE_DIRS})
+target_include_directories(ldaobj PUBLIC ${BLAS_INCLUDE_DIRS})
+target_include_directories(ldaobj PUBLIC ${ICU18N_INCLUDE_DIRS})
+target_compile_options(ldaobj PUBLIC ${ICU18N_CFLAGS_OTHER})
+target_include_directories(ldaobj PUBLIC ${ICUIO_INCLUDE_DIRS})
+target_compile_options(ldaobj PUBLIC ${ICUIO_CFLAGS_OTHER})
+target_include_directories(ldaobj PUBLIC ${ICUUC_INCLUDE_DIRS})
+target_compile_options(ldaobj PUBLIC ${ICUUC_CFLAGS_OTHER})
+target_link_directories(ldaobj PUBLIC ${OPENSSL_LIBRARY_DIRS})
+target_include_directories(ldaobj PUBLIC ${OPENSSL_INCLUDE_DIRS})
+
 if(DEFINED libhdfs3_DIR)
     message("-- libhdfs3_DIR defined: " "${libhdfs3_DIR}")
     if(EXISTS "${libhdfs3_DIR}/include/hdfs/hdfs.h")
         message("-- Found libhdfs3.h")
         if(EXISTS "${libhdfs3_DIR}/lib/libhdfs3.so")
             message("-- Found libhdfs3.so")
-            add_executable(distparldahdfs jch.cpp hdfs_support.cpp documents.cpp results.cpp gibbs.cpp distparldalib.cpp distparldahdfs.cpp)
+
+            add_executable(distparldahdfs hdfs_support.cpp distparldahdfs.cpp)
+
+            target_link_libraries(distparldahdfs ldaobj distparldalib)
 
             target_compile_options(distparldahdfs PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
             target_compile_definitions(distparldahdfs PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_SHARED_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
@@ -138,7 +153,39 @@ else()
     message("-- libhdfs3_DIR not defined; distparldahdfs will not be built.")
 endif()
 
-add_executable(lda jch.cpp documents.cpp results.cpp gibbs.cpp ldalib.cpp lda.cpp)
+add_library(ldalib STATIC ldalib.cpp)
+target_link_libraries(ldalib ldaobj)
+
+target_link_libraries(ldalib ${LAPACK_LIBRARIES})
+target_link_directories(ldalib PUBLIC ${LAPACK_LIBRARY_DIRS})
+target_include_directories(ldalib PUBLIC ${LAPACK_INCLUDE_DIRS})
+
+target_link_libraries(ldalib ${BLAS_LIBRARIES})
+target_link_directories(ldalib PUBLIC ${BLAS_LIBRARY_DIRS})
+target_include_directories(ldalib PUBLIC ${BLAS_INCLUDE_DIRS})
+
+target_link_libraries(ldalib ${ICU18N_LIBRARIES})
+target_link_directories(ldalib PUBLIC ${ICU18N_LIBRARY_DIRS})
+target_include_directories(ldalib PUBLIC ${ICU18N_INCLUDE_DIRS})
+target_compile_options(ldalib PUBLIC ${ICU18N_CFLAGS_OTHER})
+
+target_link_libraries(ldalib ${ICUIO_LIBRARIES})
+target_link_directories(ldalib PUBLIC ${ICUIO_LIBRARY_DIRS})
+target_include_directories(ldalib PUBLIC ${ICUIO_INCLUDE_DIRS})
+target_compile_options(ldalib PUBLIC ${ICUIO_CFLAGS_OTHER})
+
+target_link_libraries(ldalib ${ICUUC_LIBRARIES})
+target_link_directories(ldalib PUBLIC ${ICUUC_LIBRARY_DIRS})
+target_include_directories(ldalib PUBLIC ${ICUUC_INCLUDE_DIRS})
+target_compile_options(ldalib PUBLIC ${ICUUC_CFLAGS_OTHER})
+
+target_link_libraries(ldalib ${OPENSSL_LIBRARIES})
+target_link_directories(ldalib PUBLIC ${OPENSSL_LIBRARY_DIRS})
+target_include_directories(ldalib PUBLIC ${OPENSSL_INCLUDE_DIRS})
+
+add_executable(lda lda.cpp)
+
+target_link_libraries(lda ldalib)
 
 target_compile_options(lda PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
 target_link_libraries(lda -lstdc++fs)
@@ -170,7 +217,12 @@ target_link_libraries(lda ${OPENSSL_LIBRARIES})
 target_link_directories(lda PUBLIC ${OPENSSL_LIBRARY_DIRS})
 target_include_directories(lda PUBLIC ${OPENSSL_INCLUDE_DIRS})
 
-add_executable(parlda jch.cpp documents.cpp results.cpp gibbs.cpp parldalib.cpp parlda.cpp)
+add_library(parldalib STATIC parldalib.cpp)
+target_link_libraries(parldalib ldaobj)
+
+add_executable(parlda parlda.cpp)
+
+target_link_libraries(parlda parldalib)
 
 target_compile_options(parlda PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
 target_compile_definitions(parlda PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_SHARED_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
@@ -207,7 +259,28 @@ target_link_libraries(parlda ${OPENSSL_LIBRARIES})
 target_link_directories(parlda PUBLIC ${OPENSSL_LIBRARY_DIRS})
 target_include_directories(parlda PUBLIC ${OPENSSL_INCLUDE_DIRS})
 
-add_executable(distparlda jch.cpp documents.cpp results.cpp gibbs.cpp distparldalib.cpp distparlda.cpp)
+add_library(distparldalib STATIC distparldalib.cpp)
+
+target_link_libraries(distparldalib ldaobj)
+
+target_compile_options(distparldalib PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
+target_compile_definitions(distparldalib PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_SHARED_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
+
+target_link_libraries(distparldalib ${HPX_LIBRARIES})
+target_link_directories(distparldalib PUBLIC ${HPX_LIBRARY_DIRS})
+target_include_directories(distparldalib PUBLIC ${HPX_INCLUDE_DIRS})
+
+target_link_libraries(distparldalib ${LAPACK_LIBRARIES})
+target_link_directories(distparldalib PUBLIC ${LAPACK_LIBRARY_DIRS})
+target_include_directories(distparldalib PUBLIC ${LAPACK_INCLUDE_DIRS})
+
+target_link_libraries(distparldalib ${BLAS_LIBRARIES})
+target_link_directories(distparldalib PUBLIC ${BLAS_LIBRARY_DIRS})
+target_include_directories(distparldalib PUBLIC ${BLAS_INCLUDE_DIRS})
+
+add_executable(distparlda distparlda.cpp)
+
+target_link_libraries(distparlda distparldalib)
 
 target_compile_options(distparlda PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
 target_compile_definitions(distparlda PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_SHARED_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
