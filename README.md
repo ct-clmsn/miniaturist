@@ -22,7 +22,7 @@ The following implementations are provided:
 Optional extensions provided:
 
 * A plugin for the [Phylanx](https://github.com/STEllAR-GROUP/phylanx) distributed array toolkit
-* [Python](https://www.python.org/) bindings
+* [Python](https://www.python.org/) bindings (modules: pylda, pyparlda, pydistparlda)
 
 The following tools are provided:
 
