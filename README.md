@@ -87,6 +87,10 @@ This is a possible location for libhdfs3.so and hdfs/hdfs.h:
 
 * `PATH_TO_LIBHDFS3_INSTALL=/usr/`
 
+Python bindings will be built if cmake detects pybind11. To inform cmake where
+pybind11 is installed, use the `-Dpybind11_DIR=<path-to-pybind11-cmake-files>`
+flag.
+
 ## How To Use
 
 Topic Modeling Program names:
@@ -143,6 +147,10 @@ Topic Modeling Libraries:
 * libldalib.a, ldalib.hpp single node, sequential (no threads), implementation
 * libparldalib.a, parldalib.hpp single node, parallel, implementation
 * libdistparldalib.a, distparldalib.hpp distributed (multi-node), parallel, implementation
+
+Using the Python bindings requires users to type the following in python3.8:
+
+`from pylda import lda`
 
 ## Implementation Notes
 
