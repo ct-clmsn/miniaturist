@@ -201,9 +201,9 @@ For HPC Environments w/libfabric:
 * HPX_WITH_PARCELPORT_LIBFABRIC=ON
 * HPX_WITH_PARCELPORT_LIBFABRIC_PROVIDER=[gni,verbs,psm2,etc]
 
-For Cloud and/or HPC with runtime instrumentation:
+Dynamic runtime instrumentation for Cloud and/or HPC:
 
-* HPX_WITH_APEX=ON (requires APEX installation)
+* HPX_WITH_APEX=ON (requires [APEX](https://github.com/khuck/xpress-apex) installation)
 
 ## Licenses
 
@@ -235,6 +235,7 @@ and the license terms can be found in the file 'LICENSE'.
 
 ## Optional Dependencies
 
+* APEX
 * Phylanx
 * pybind11 (Python support)
 * libhdfs3 (Hadoop Filesystem/HDFS support)
@@ -247,6 +248,7 @@ and the license terms can be found in the file 'LICENSE'.
 * Erlend Hamberg (Jump Consistency Hash)
 * Daan Kolthof (Bloom Filter)
 * Erik Muttersbach ([libhdfs3](https://github.com/erikmuttersbach/libhdfs3))
+* [APEX](https://github.com/khuck/xpress-apex)
 
 ## Author
 
