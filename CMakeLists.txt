@@ -38,8 +38,19 @@ find_package(blaze NO_CMAKE_PACKAGE_REGISTRY)
 if(NOT blaze_FOUND)
   message("Blaze could not be found. Please specify blaze_DIR to assist locating it.")
 endif()
+
 include("${blaze_DIR}/blaze-config-version.cmake")
-message("Blaze version: " "${PACKAGE_VERSION}")
+message("-- Blaze version: " "${PACKAGE_VERSION}")
+
+find_package(pybind11 NO_CMAKE_PACKAGE_REGISTRY)
+if(NOT pybind11_FOUND)
+  message("-- pybind11 could not be found. Please specify pybind11_DIR to assist locating it.")
+endif()
+
+message("-- pybind11_DIR defined: " "${pybind11_DIR}")
+#include_directories(${pybind11_INCLUDE_DIR})
+
+#pybind11_add_module(pyparlda pyparlda.cpp)
 
 add_library(ldaobj OBJECT jch.cpp documents.cpp results.cpp gibbs.cpp)
 target_include_directories(ldaobj PUBLIC ${LAPACK_INCLUDE_DIRS})
@@ -65,7 +76,7 @@ if(DEFINED libhdfs3_DIR)
             target_link_libraries(distparldahdfs ldaobj distparldalib)
 
             target_compile_options(distparldahdfs PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
-            target_compile_definitions(distparldahdfs PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_SHARED_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
+            target_compile_definitions(distparldahdfs PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_STATIC_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
             target_link_libraries(distparldahdfs -lstdc++fs)
 
             target_link_libraries(distparldahdfs ${HPX_LIBRARIES})
@@ -225,7 +236,7 @@ add_executable(parlda parlda.cpp)
 target_link_libraries(parlda parldalib)
 
 target_compile_options(parlda PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
-target_compile_definitions(parlda PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_SHARED_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
+target_compile_definitions(parlda PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_STATIC_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
 target_link_libraries(parlda -lstdc++fs)
 
 target_link_libraries(parlda ${HPX_LIBRARIES})
@@ -264,7 +275,7 @@ add_library(distparldalib STATIC distparldalib.cpp)
 target_link_libraries(distparldalib ldaobj)
 
 target_compile_options(distparldalib PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
-target_compile_definitions(distparldalib PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_SHARED_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
+target_compile_definitions(distparldalib PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_STATIC_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
 
 target_link_libraries(distparldalib ${HPX_LIBRARIES})
 target_link_directories(distparldalib PUBLIC ${HPX_LIBRARY_DIRS})
@@ -283,7 +294,7 @@ add_executable(distparlda distparlda.cpp)
 target_link_libraries(distparlda distparldalib)
 
 target_compile_options(distparlda PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
-target_compile_definitions(distparlda PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_SHARED_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
+target_compile_definitions(distparlda PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_STATIC_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
 target_link_libraries(distparlda -lstdc++fs)
 
 target_link_libraries(distparlda ${HPX_LIBRARIES})
@@ -384,3 +395,35 @@ target_compile_options(distvocab PUBLIC ${ICUUC_CFLAGS_OTHER})
 target_link_libraries(distvocab ${OPENSSL_LIBRARIES})
 target_link_directories(distvocab PUBLIC ${OPENSSL_LIBRARY_DIRS})
 target_include_directories(distvocab PUBLIC ${OPENSSL_INCLUDE_DIRS})
+
+pybind11_add_module(pylda jch.cpp documents.cpp results.cpp gibbs.cpp ldalib.cpp pylda.cpp)
+target_link_libraries(pylda PRIVATE -lstdc++fs)
+
+target_link_libraries(pylda PRIVATE ${LAPACK_LIBRARIES})
+target_link_directories(pylda PRIVATE ${LAPACK_LIBRARY_DIRS})
+target_include_directories(pylda PRIVATE ${LAPACK_INCLUDE_DIRS})
+
+target_link_libraries(pylda PRIVATE ${BLAS_LIBRARIES})
+target_link_directories(pylda PRIVATE ${BLAS_LIBRARY_DIRS})
+target_include_directories(pylda PRIVATE ${BLAS_INCLUDE_DIRS})
+
+target_link_libraries(pylda PRIVATE ${ICU18N_LIBRARIES})
+target_link_directories(pylda PRIVATE ${ICU18N_LIBRARY_DIRS})
+target_include_directories(pylda PRIVATE ${ICU18N_INCLUDE_DIRS})
+target_compile_options(pylda PRIVATE ${ICU18N_CFLAGS_OTHER})
+
+target_link_libraries(pylda PRIVATE ${ICUIO_LIBRARIES})
+target_link_directories(pylda PRIVATE ${ICUIO_LIBRARY_DIRS})
+target_include_directories(pylda PRIVATE ${ICUIO_INCLUDE_DIRS})
+target_compile_options(pylda PRIVATE ${ICUIO_CFLAGS_OTHER})
+
+target_link_libraries(pylda PRIVATE ${ICUUC_LIBRARIES})
+target_link_directories(pylda PRIVATE ${ICUUC_LIBRARY_DIRS})
+target_include_directories(pylda PRIVATE ${ICUUC_INCLUDE_DIRS})
+target_compile_options(pylda PRIVATE ${ICUUC_CFLAGS_OTHER})
+
+target_link_libraries(pylda PRIVATE ${OPENSSL_LIBRARIES})
+target_link_directories(pylda PRIVATE ${OPENSSL_LIBRARY_DIRS})
+target_include_directories(pylda PRIVATE ${OPENSSL_INCLUDE_DIRS})
+
+target_include_directories(pylda PRIVATE ${pybind11_INCLUDE_DIR})
