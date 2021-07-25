@@ -73,18 +73,11 @@ something like the following:
 
 `cmake -Dblaze_DIR=<PATH_TO_BLAZE_CMAKEFILE> -DHPX_DIR=<PATH_TO_HPX_CMAKEFILE> ..`
 
-3) Python bindings will be built if cmake detects pybind11. To inform cmake where
-pybind11 is installed, use the `-Dpybind11_DIR=<PATH_TO_PYBIND11_CMAKEFILE>`
-flag.
-
-`cmake -Dblaze_DIR=<PATH_TO_BLAZE_CMAKEFILE> -DHPX_DIR=<PATH_TO_HPX_CMAKEFILE> -Dpybind11_DIR=<PATH_TO_PYBIND11_CMAKEFILE>`
-
 These are possible directories where the blaze and hpx cmakefiles can
 be found:
 
 * `PATH_TO_BLAZE_CMAKEFILE=/usr/share/blaze/cmake`
 * `PATH_TO_HPX_CMAKEFILE=/usr/lib/cmake/HPX`
-* `PATH_TO_PYBIND11_CMAKEFILE=/usr/share/cmake/pybind11`
 
 Add the following for Cloud (Hadoop File System - HDFS) support:
 
@@ -93,6 +86,16 @@ Add the following for Cloud (Hadoop File System - HDFS) support:
 This is a possible location for libhdfs3.so and hdfs/hdfs.h:
 
 * `PATH_TO_LIBHDFS3_INSTALL=/usr/`
+
+Add the following for Python bindings to be built. To inform cmake where
+pybind11 is installed, use the `-Dpybind11_DIR=<PATH_TO_PYBIND11_CMAKEFILE>`
+flag.
+
+`cmake -Dblaze_DIR=<PATH_TO_BLAZE_CMAKEFILE> -DHPX_DIR=<PATH_TO_HPX_CMAKEFILE> -Dpybind11_DIR=<PATH_TO_PYBIND11_CMAKEFILE>`
+
+Here is a possible directory where the pybind11 cmakefiles are located:
+
+* `PATH_TO_PYBIND11_CMAKEFILE=/usr/share/cmake/pybind11`
 
 ## How To Use
 
