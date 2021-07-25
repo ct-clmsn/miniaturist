@@ -201,6 +201,10 @@ For HPC Environments w/libfabric:
 * HPX_WITH_PARCELPORT_LIBFABRIC=ON
 * HPX_WITH_PARCELPORT_LIBFABRIC_PROVIDER=[gni,verbs,psm2,etc]
 
+For Cloud and/or HPC with runtime instrumentation:
+
+* HPX_WITH_APEX=ON (requires APEX installation)
+
 ## Licenses
 
 This implementation uses a Jump Consistency Hash and a Bloom Filter
