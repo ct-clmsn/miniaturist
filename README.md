@@ -205,6 +205,10 @@ Dynamic runtime instrumentation for Cloud and/or HPC:
 
 * HPX_WITH_APEX=ON (requires [APEX](https://github.com/khuck/xpress-apex) installation)
 
+For OpenMP enabled LAPACK, BLAS, Blaze implementations:
+
+* [hpxMP](https://github.com/STEllAR-GROUP/hpxMP)
+
 ## Licenses
 
 This implementation uses a Jump Consistency Hash and a Bloom Filter
@@ -236,6 +240,7 @@ and the license terms can be found in the file 'LICENSE'.
 ## Optional Dependencies
 
 * APEX
+* hpxMP
 * Phylanx
 * pybind11 (Python support)
 * libhdfs3 (Hadoop Filesystem/HDFS support)
@@ -249,6 +254,7 @@ and the license terms can be found in the file 'LICENSE'.
 * Daan Kolthof (Bloom Filter)
 * Erik Muttersbach ([libhdfs3](https://github.com/erikmuttersbach/libhdfs3))
 * [APEX](https://github.com/khuck/xpress-apex)
+* Jeremy Kemp; Tianyi Zhang; Shahrzad Shirzad; Bryce Adelstein Lelbach aka wash; Hartmut Kaiser; Bibek Wagle; Parsa Amini; Alireza Kheirkhahan. "[hpxMP](https://github.com/STEllAR-GROUP/hpxMP) v0.3.0: An OpenMP runtime implemented using HPX"
 
 ## Author
 
