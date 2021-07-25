@@ -155,7 +155,7 @@ Topic Modeling Libraries:
 * libparldalib.a, parldalib.hpp single node, parallel, implementation
 * libdistparldalib.a, distparldalib.hpp distributed (multi-node), parallel, implementation
 
-Using the Python bindings requires users to type the following in python3.8:
+The Python bindings requires users to type the following in python3.8:
 
 `from pylda import lda`
 
