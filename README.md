@@ -207,7 +207,7 @@ Dynamic runtime instrumentation for Cloud and/or HPC:
 
 For OpenMP enabled LAPACK, BLAS, Blaze implementations:
 
-* [hpxMP](https://github.com/STEllAR-GROUP/hpxMP)
+* [hpxMP](https://github.com/STEllAR-GROUP/hpxMP) - provides HPX/APEX the ability to manage OpenMP
 
 ## Licenses
 
