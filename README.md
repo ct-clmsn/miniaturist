@@ -253,7 +253,7 @@ and the license terms can be found in the file 'LICENSE'.
 * Erlend Hamberg (Jump Consistency Hash)
 * Daan Kolthof (Bloom Filter)
 * Erik Muttersbach ([libhdfs3](https://github.com/erikmuttersbach/libhdfs3))
-* [APEX](https://github.com/khuck/xpress-apex)
+* Kevin A. Huck, Allan Porterfield, Nick Chaimov, Hartmut Kaiser, Allen D. Malony, Thomas Sterling, Rob Fowler. "An Autonomic Performance Environment for eXascale"; [APEX](https://github.com/khuck/xpress-apex)
 * Jeremy Kemp; Tianyi Zhang; Shahrzad Shirzad; Bryce Adelstein Lelbach aka wash; Hartmut Kaiser; Bibek Wagle; Parsa Amini; Alireza Kheirkhahan. "[hpxMP](https://github.com/STEllAR-GROUP/hpxMP) v0.3.0: An OpenMP runtime implemented using HPX"
 
 ## Author
