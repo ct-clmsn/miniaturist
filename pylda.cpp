@@ -103,7 +103,7 @@ void lda(std::string path, std::string vocab_path, std::string regex, const std:
     train_lda(dwcm, tdcm, twcm, tokens, n_topics, iterations, alpha, beta);
 }
 
-PYBIND11_MODULE(lda, m) {
+PYBIND11_MODULE(pylda, m) {
 
     m.def("lda", [](std::string const& path, std::vector<std::string> const& vocab, std::string const& regex, const long iters, const long ntopics, const double alpha, const double beta) {
         lda(path, vocab, regex, static_cast<std::size_t>(iters), static_cast<std::size_t>(ntopics), alpha, beta);
