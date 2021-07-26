@@ -396,7 +396,6 @@ target_link_libraries(distvocab ${OPENSSL_LIBRARIES})
 target_link_directories(distvocab PUBLIC ${OPENSSL_LIBRARY_DIRS})
 target_include_directories(distvocab PUBLIC ${OPENSSL_INCLUDE_DIRS})
 
-
 if(pybind11_FOUND)
 
     pybind11_add_module(pylda jch.cpp documents.cpp results.cpp gibbs.cpp ldalib.cpp pylda.cpp)
