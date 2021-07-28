@@ -59,18 +59,9 @@ for a file copy (scp).
 
 ## How To Build
 
-To build this software, users are provided 2 options: a handrolled
-makefile or cmake.
-
-1) The makefile will need to be modified. There are comments in the
-file that explain what needs to be modified. To make all the programs
-run 'make'. Then run 'make distparldahdfs'. If the vocabulary tools
-are required, run 'make distvocab' and/or 'make vocab' and/or
-'make distvocabhdfs'.
-
-2) cmake will require creating a directory called 'build'. Users will
-change directory into 'build'. At this point the user will need to type
-something like the following:
+This project requires using cmake. cmake requires creating a directory
+called 'build'. Users will change directory into 'build'. At this point
+the user will need to type something like the following:
 
 `cmake -Dblaze_DIR=<PATH_TO_BLAZE_CMAKEFILE> -DHPX_DIR=<PATH_TO_HPX_CMAKEFILE> ..`
 
