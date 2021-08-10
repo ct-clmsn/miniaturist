@@ -1,0 +1,84 @@
+Bootstrap: docker
+From: rockylinux/rockylinux
+
+%post -c bash
+    echo "-- Running %post section"
+
+    yum update -y && \
+    yum remove -y epel-release && \
+    yum install -y epel-release && \
+    yum groupinstall -y 'Development Tools' && \
+    yum install -y gcc-toolset-10-gcc gcc-toolset-10-gcc-c++ glibc-devel make python38 \
+        wget bash git python38-devel.x86_64 \
+        lapack.x86_64 \
+        openmpi-devel.x86_64 \
+        openssl-devel.x86_64 \
+        libxml2-devel \
+        protobuf.x86_64 \
+        libuuid-devel.x86_64 \
+        libicu-devel.x86_64 \
+        krb5-devel.x86_64 \
+        gperftools-libs \
+        gperftools gperftools-devel \
+        libgsasl libgsasl-devel
+
+    export GIT_SSL_NO_VERIFY=true
+    export PATH=/usr/bin:/usr/local/bin:$PATH
+    export LD_LIBRARY_PATH=/usr/lib:/usr/lib64:/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH
+    export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib64/pkgconfig:$PKG_CONFIG_PATH
+    source /opt/rh/gcc-toolset-10/enable
+    export PATH=/opt/rh/gcc-toolset-10/usr/bin:$PATH
+
+    echo "-- Downloading cmake"
+
+    wget --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.21.0/cmake-3.21.0-linux-x86_64.sh
+    chmod ugo+x cmake-3.21.0-linux-x86_64.sh
+    echo "-- Installing cmake"
+    ./cmake-3.21.0-linux-x86_64.sh --skip-license
+    echo "-- git cloning repositories"
+    cd /tmp
+    echo "-- installing blaze"
+    rm -rf blaze
+    git clone https://bitbucket.org/blaze-lib/blaze.git
+    cd blaze
+    mkdir build
+    cd build
+    cmake ..
+    make install
+    cd ../..
+    echo "-- installing blaze_tensor"
+    rm -rf blaze_tensor
+    git clone https://github.com/STEllAR-GROUP/blaze_tensor.git
+    cd blaze_tensor
+    mkdir build
+    cd build
+    cmake ..
+    sudo make install
+    cd ../..
+    echo "-- installing ste||ar hpx"
+    rm -rf hpx
+    git clone https://github.com/STEllAR-GROUP/hpx.git
+    cd hpx
+    mkdir build
+    cd build
+    cmake -DHPX_PARCELPORT_MPI=ON -DHPX_WITH_FETCH_ASIO=ON ..
+    make install
+    cd ../..
+    echo "-- installing libhdfs3"
+    rm -rf libhdfs3
+    git clone https://github.com/ct-clmsn/libhdfs3.git
+    cd libhdfs3
+    mkdir build
+    cd build
+    cmake ..
+    make install
+    cd ../..
+    echo "-- installing miniaturist"
+    rm -rf miniaturist
+    git clone https://github.com/ct-clmsn/miniaturist.git
+    cd miniaturist
+    mkdir build
+    cd build
+    cmake -Dblaze_DIR=/usr/share/blaze/cmake -DHPX_DIR=/usr/lib/cmake/HPX ..
+    make install
+    cd ../..
