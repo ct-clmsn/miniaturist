@@ -199,8 +199,16 @@ int main(int argc, char ** argv) {
         hpx::program_options::value<std::size_t>()->default_value(1024),
         "size of the buffer used to read data from hdfs");
 
+    // make sure hpx_main is run on all localities
+    //
+    std::vector<std::string> cfg = {
+        "hpx.run_hpx_main!=1"
+    };
+    
     hpx::init_params params;
     params.desc_cmdline = desc;
+    params.cfg = std::move(cfg);
+    
     return hpx::init(argc, argv, params);
 }
 
