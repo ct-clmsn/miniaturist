@@ -32,6 +32,16 @@ pkg_check_modules(ICU18N REQUIRED icu-i18n)
 pkg_check_modules(ICUIO REQUIRED icu-io)
 pkg_check_modules(ICUUC REQUIRED icu-uc)
 
+if(NOT ICUUC_FOUND)
+   message("icu could not be found.")
+else()
+   message("-- icu version: " "${ICUUC_VERSION}")
+   if(ICUUC_VERSION EQUAL "69.1")
+      add_definitions(-DICU69=1)
+   endif()
+endif()
+
+
 include_directories(${BLAS_INCLUDE_DIR})
 
 find_package(blaze NO_CMAKE_PACKAGE_REGISTRY)
