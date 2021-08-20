@@ -84,3 +84,48 @@ From: ubuntu:20.04
     cd /tmp
 
     rm -rf cmake-3.21.0-linux-x86_64.sh blaze blaze_tensor hpx libhdfs3 miniaturist otf2-2.3 otf2-2.3.tar.gz
+
+%help
+    This container hosts mutiple applications. Run the following commands to learn more about the applications hosted in this container: `singularity run-help --app <distvocab|vocab|distparlda|parlda|lda|distvocabhdfs|distparldahdfs> miniaturist.sif`
+
+%apphelp distvocab
+    /usr/local/bin/distvocab --help
+
+%apphelp vocab
+    /usr/local/bin/vocab --help
+
+%apphelp distparlda
+    /usr/local/bin/distparlda --help
+
+%apphelp parlda
+    /usr/local/bin/parlda --help
+
+%apphelp lda
+    /usr/local/bin/lda --help
+
+%apphelp distvocabhdfs
+    /usr/local/bin/distvocabhdfs --help
+
+%apphelp distparldahdfs
+    /usr/local/bin/distparldahdfs --help
+
+%apprun distvocab
+    /usr/local/bin/distvocab
+
+%apprun vocab
+    /usr/local/bin/vocab
+
+%apprun distparlda
+    /usr/local/bin/distparlda
+
+%apprun parlda
+    /usr/local/bin/parlda
+
+%apprun lda
+    /usr/local/bin/lda
+
+%apprun distvocabhdfs
+    /usr/local/bin/distvocabhdfs
+
+%apprun distparldahdfs
+    /usr/local/bin/distparldahdfs
