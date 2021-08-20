@@ -57,7 +57,14 @@ using a filename that is: unique to the locality identifier (integer) of
 the program instance, or into a remote /tmp directory that is accessible
 for a file copy (scp).
 
-## How To Build
+## How To Build The Container
+
+Either options should work...
+
+* sudo singularity build miniaturist.sif miniaturist.def
+* singularity build --fakeroot miniaturist.sif miniaturist.def
+
+## How To Build From Source
 
 This project requires using cmake. cmake requires creating a directory
 called 'build'. Users will change directory into 'build'. At this point
@@ -235,6 +242,7 @@ and the license terms can be found in the file 'LICENSE'.
 * Phylanx
 * pybind11 (Python support)
 * libhdfs3 (Hadoop Filesystem/HDFS support)
+* singularity
 
 ## Special Thanks
 
