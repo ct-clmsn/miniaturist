@@ -59,7 +59,8 @@ for a file copy (scp).
 
 ## How To Build The Container
 
-Either options should work...
+Container users should use the following options. The container is
+Ubuntu 20.04 based and uses some packages from 'universe'.
 
 * sudo singularity build miniaturist.sif miniaturist.def
 * singularity build --fakeroot miniaturist.sif miniaturist.def
