@@ -164,6 +164,18 @@ if(DEFINED libhdfs3_DIR)
             target_link_directories(distvocabhdfs PUBLIC ${libhdfs3_DIR}/lib)
             target_include_directories(distvocabhdfs PUBLIC ${libhdfs3_DIR}/include)
 
+            install(
+                # install all miniaturist header files
+		FILES ${PROJECT_SOURCE_DIR}/hdfs_support.hpp
+                DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/miniaturist
+            )
+
+            install(
+                # install all miniaturist library files
+		FILES ${CMAKE_CURRENT_BINARY_DIR}/distparldahdfs ${CMAKE_CURRENT_BINARY_DIR}/distvocabhdfs
+                DESTINATION ${CMAKE_INSTALL_BINDIR}
+            )
+
         else()
             message("-- libhdfs3.so not found; distparldahdfs will not be built")
         endif()
@@ -405,6 +417,24 @@ target_compile_options(distvocab PUBLIC ${ICUUC_CFLAGS_OTHER})
 target_link_libraries(distvocab ${OPENSSL_LIBRARIES})
 target_link_directories(distvocab PUBLIC ${OPENSSL_LIBRARY_DIRS})
 target_include_directories(distvocab PUBLIC ${OPENSSL_INCLUDE_DIRS})
+
+install(
+    # install all miniaturist header files
+    FILES ${PROJECT_SOURCE_DIR}/bloomfilter.hpp ${PROJECT_SOURCE_DIR}/gibbs.hpp ${PROJECT_SOURCE_DIR}/inverted_index.hpp ${PROJECT_SOURCE_DIR}/jch.hpp ${PROJECT_SOURCE_DIR}/parldalib.hpp ${PROJECT_SOURCE_DIR}/results.hpp ${PROJECT_SOURCE_DIR}/distparldalib.hpp ${PROJECT_SOURCE_DIR}/documents.hpp ${PROJECT_SOURCE_DIR}/hdfs_support.hpp ${PROJECT_SOURCE_DIR}/inverted_index_serialize.hpp ${PROJECT_SOURCE_DIR}/ldalib.hpp ${PROJECT_SOURCE_DIR}/posix_utility.hpp ${PROJECT_SOURCE_DIR}/serialize.hpp
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/miniaturist
+)
+
+install(
+    # install all miniaturist library files
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/libdistparldalib.a ${CMAKE_CURRENT_BINARY_DIR}/libldalib.a ${CMAKE_CURRENT_BINARY_DIR}/libparldalib.a
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/miniaturist
+)
+
+install(
+    # install all miniaturist library files
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/distparlda ${CMAKE_CURRENT_BINARY_DIR}/lda ${CMAKE_CURRENT_BINARY_DIR}/parlda ${CMAKE_CURRENT_BINARY_DIR}/distvocab ${CMAKE_CURRENT_BINARY_DIR}/vocab
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
 
 if(pybind11_FOUND)
 
