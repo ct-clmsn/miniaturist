@@ -38,12 +38,10 @@ From: ubuntu:20.04
     cd otf2-2.3
     ./configure && make && make install
     cd /tmp
-    rm -rf otf2-2.3 otf2-2.3.tar.gz
 
     echo "-- git cloning repositories"
 
     echo "-- installing blaze"
-    rm -rf blaze
     git clone https://bitbucket.org/blaze-lib/blaze.git
     cd blaze
     mkdir build
@@ -53,7 +51,6 @@ From: ubuntu:20.04
     cd /tmp
 
     echo "-- installing blaze_tensor"
-    rm -rf blaze_tensor
     git clone https://github.com/STEllAR-GROUP/blaze_tensor.git
     cd blaze_tensor
     mkdir build
@@ -63,7 +60,6 @@ From: ubuntu:20.04
     cd /tmp
 
     echo "-- installing ste||ar hpx"
-    rm -rf hpx
     git clone https://github.com/STEllAR-GROUP/hpx.git
     cd hpx
     mkdir build
@@ -72,7 +68,6 @@ From: ubuntu:20.04
     cd /tmp
 
     echo "-- installing libhdfs3"
-    rm -rf libhdfs3
     git clone https://github.com/ct-clmsn/libhdfs3.git
     cd libhdfs3
     mkdir build
@@ -81,7 +76,6 @@ From: ubuntu:20.04
     cd /tmp
 
     echo "-- installing miniaturist"
-    rm -rf miniaturist
     git clone https://github.com/ct-clmsn/miniaturist.git
     cd miniaturist
     mkdir build
@@ -89,4 +83,4 @@ From: ubuntu:20.04
     cmake -Dblaze_DIR=/usr/share/blaze/cmake -DHPX_DIR=/usr/lib/cmake/HPX -Dlibhdfs3_DIR=/usr/local .. && make && make install
     cd /tmp
 
-    rm -rf blaze blaze_tensor hpx libhdfs3 miniaturist
+    rm -rf cmake-3.21.0-linux-x86_64.sh blaze blaze_tensor hpx libhdfs3 miniaturist otf2-2.3 otf2-2.3.tar.gz
