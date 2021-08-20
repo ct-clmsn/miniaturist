@@ -16,7 +16,12 @@
 #include <unicode/unistr.h>
 #include <blaze/Math.h>
 
+#ifdef ICU69
 using icu_69::UnicodeString;
+#else
+using icu_66::UnicodeString;
+#endif
+
 using blaze::DynamicMatrix;
 
 using namespace blaze;

@@ -19,7 +19,11 @@
 #include "inverted_index.hpp"
 #include "documents.hpp"
 
+#ifdef ICU69
 using namespace icu_69;
+#else
+using namespace icu_66;
+#endif
 
 using blaze::DynamicMatrix;
 using blaze::DynamicVector;

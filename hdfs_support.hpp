@@ -21,7 +21,11 @@
 
 namespace fs = std::experimental::filesystem;
 
+#ifdef ICU69
 using namespace icu_69;
+#else
+using namespace icu_66;
+#endif
 
 struct hdfs_context {
     hdfsBuilder * builder;

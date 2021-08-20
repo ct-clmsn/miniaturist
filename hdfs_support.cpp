@@ -13,7 +13,11 @@
 
 #include <cassert>
 
+#ifdef ICU69
 using namespace icu_69;
+#else
+using namespace icu_66;
+#endif
 
 void init_hdfs_context(hdfs_context & ctx, std::string const& namenode, const std::size_t namenode_port, const std::size_t buffer_sz) {
     ctx.builder = hdfsNewBuilder();

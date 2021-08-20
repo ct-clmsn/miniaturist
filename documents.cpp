@@ -23,7 +23,12 @@
 #include "bloomfilter.hpp"
 #include "documents.hpp"
 
+#ifdef ICU69
 using namespace icu_69;
+#else
+using namespace icu_66;
+#endif
+
 using blaze::DynamicMatrix;
 
 std::size_t path_to_vector(fs::path const& p, std::vector<fs::path> & paths) {

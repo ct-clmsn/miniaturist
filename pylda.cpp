@@ -18,7 +18,13 @@
 #include "ldalib.hpp"
 
 namespace fs = std::experimental::filesystem;
+
+#ifdef ICU69
 using icu_69::UnicodeString;
+#else
+using icu_66::UnicodeString;
+#endif
+
 using blaze::DynamicMatrix;
 using blaze::CompressedMatrix;
 
