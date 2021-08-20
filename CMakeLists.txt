@@ -165,13 +165,13 @@ if(DEFINED libhdfs3_DIR)
             target_include_directories(distvocabhdfs PUBLIC ${libhdfs3_DIR}/include)
 
             install(
-                # install all miniaturist header files
+                # install all miniaturist hdfs header files
 		FILES ${PROJECT_SOURCE_DIR}/hdfs_support.hpp
                 DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/miniaturist
             )
 
             install(
-                # install all miniaturist library files
+                # install all miniaturist hdfs program files
 		FILES ${CMAKE_CURRENT_BINARY_DIR}/distparldahdfs ${CMAKE_CURRENT_BINARY_DIR}/distvocabhdfs
                 DESTINATION ${CMAKE_INSTALL_BINDIR}
             )
@@ -431,7 +431,7 @@ install(
 )
 
 install(
-    # install all miniaturist library files
+    # install all miniaturist program files
     FILES ${CMAKE_CURRENT_BINARY_DIR}/distparlda ${CMAKE_CURRENT_BINARY_DIR}/lda ${CMAKE_CURRENT_BINARY_DIR}/parlda ${CMAKE_CURRENT_BINARY_DIR}/distvocab ${CMAKE_CURRENT_BINARY_DIR}/vocab
     DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
