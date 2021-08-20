@@ -65,6 +65,11 @@ Ubuntu 20.04 based and uses some packages from 'universe'.
 * sudo singularity build miniaturist.sif miniaturist.def
 * singularity build --fakeroot miniaturist.sif miniaturist.def
 
+The container uses wget to download a binary build of cmake from
+kitware's website and the OTF2 source from VI-HPS. Other software
+dependencies are `git cloned` from their respective source
+repositories and compiled into the container.
+
 ## How To Build From Source
 
 This project requires using cmake. cmake requires creating a directory
