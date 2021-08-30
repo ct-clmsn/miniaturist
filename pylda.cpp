@@ -48,7 +48,7 @@ void lda(std::string path, std::vector<std::string> vocab, std::string regex, co
 
     std::vector< fs::path > paths;
     {
-        const std::size_t n_paths = path_to_vector( pth, paths );
+        path_to_vector( pth, paths );
         std::vector< fs::path >::iterator beg = paths.begin();
         std::vector< fs::path >::iterator end = paths.end();
         const std::size_t ndocs = static_cast<std::size_t>(end-beg);
@@ -60,9 +60,9 @@ void lda(std::string path, std::vector<std::string> vocab, std::string regex, co
         tdcm = 0.0;
         twcm = 0.0;
 
-        const std::size_t nentries = document_path_to_inverted_index(beg, end, regexp, ii, vocabulary);
+        document_path_to_inverted_index(beg, end, regexp, ii, vocabulary);
         CompressedMatrix<double> wdcm;
-        inverted_index_to_matrix(vocabulary, ii, ndocs, nentries, wdcm);
+        inverted_index_to_matrix(vocabulary, ii, ndocs, wdcm);
         dwcm = blaze::trans(wdcm);
         matrix_to_vector(dwcm, tokens);
     }
@@ -87,7 +87,7 @@ void lda(std::string path, std::string vocab_path, std::string regex, const std:
 
     std::vector< fs::path > paths;
     {
-        const std::size_t n_paths = path_to_vector( pth, paths );
+        path_to_vector( pth, paths );
         std::vector< fs::path >::iterator beg = paths.begin();
         std::vector< fs::path >::iterator end = paths.end();
         const std::size_t ndocs = static_cast<std::size_t>(end-beg);
@@ -99,9 +99,9 @@ void lda(std::string path, std::string vocab_path, std::string regex, const std:
         tdcm = 0.0;
         twcm = 0.0;
 
-        const std::size_t nentries = document_path_to_inverted_index(beg, end, regexp, ii, vocabulary);
+        document_path_to_inverted_index(beg, end, regexp, ii, vocabulary);
         CompressedMatrix<double> wdcm;
-        inverted_index_to_matrix(vocabulary, ii, ndocs, nentries, wdcm);
+        inverted_index_to_matrix(vocabulary, ii, ndocs, wdcm);
         dwcm = blaze::trans(wdcm);
         matrix_to_vector(dwcm, tokens);
     }

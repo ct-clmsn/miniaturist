@@ -197,25 +197,6 @@ target_link_libraries(ldalib ${BLAS_LIBRARIES})
 target_link_directories(ldalib PUBLIC ${BLAS_LIBRARY_DIRS})
 target_include_directories(ldalib PUBLIC ${BLAS_INCLUDE_DIRS})
 
-target_link_libraries(ldalib ${ICU18N_LIBRARIES})
-target_link_directories(ldalib PUBLIC ${ICU18N_LIBRARY_DIRS})
-target_include_directories(ldalib PUBLIC ${ICU18N_INCLUDE_DIRS})
-target_compile_options(ldalib PUBLIC ${ICU18N_CFLAGS_OTHER})
-
-target_link_libraries(ldalib ${ICUIO_LIBRARIES})
-target_link_directories(ldalib PUBLIC ${ICUIO_LIBRARY_DIRS})
-target_include_directories(ldalib PUBLIC ${ICUIO_INCLUDE_DIRS})
-target_compile_options(ldalib PUBLIC ${ICUIO_CFLAGS_OTHER})
-
-target_link_libraries(ldalib ${ICUUC_LIBRARIES})
-target_link_directories(ldalib PUBLIC ${ICUUC_LIBRARY_DIRS})
-target_include_directories(ldalib PUBLIC ${ICUUC_INCLUDE_DIRS})
-target_compile_options(ldalib PUBLIC ${ICUUC_CFLAGS_OTHER})
-
-target_link_libraries(ldalib ${OPENSSL_LIBRARIES})
-target_link_directories(ldalib PUBLIC ${OPENSSL_LIBRARY_DIRS})
-target_include_directories(ldalib PUBLIC ${OPENSSL_INCLUDE_DIRS})
-
 add_executable(lda lda.cpp)
 
 target_link_libraries(lda ldalib)
@@ -252,6 +233,21 @@ target_include_directories(lda PUBLIC ${OPENSSL_INCLUDE_DIRS})
 
 add_library(parldalib STATIC parldalib.cpp)
 target_link_libraries(parldalib ldaobj)
+
+target_compile_options(parldalib PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})
+target_compile_definitions(parldalib PUBLIC BLAZE_USE_HPX_THREADS BLAZE_USE_STATIC_MEMORY_PARALLELIZATION BLAZE_USE_HPX_THREADS)
+
+target_link_libraries(parldalib ${HPX_LIBRARIES})
+target_link_directories(parldalib PUBLIC ${HPX_LIBRARY_DIRS})
+target_include_directories(parldalib PUBLIC ${HPX_INCLUDE_DIRS})
+
+target_link_libraries(parldalib ${LAPACK_LIBRARIES})
+target_link_directories(parldalib PUBLIC ${LAPACK_LIBRARY_DIRS})
+target_include_directories(parldalib PUBLIC ${LAPACK_INCLUDE_DIRS})
+
+target_link_libraries(parldalib ${BLAS_LIBRARIES})
+target_link_directories(parldalib PUBLIC ${BLAS_LIBRARY_DIRS})
+target_include_directories(parldalib PUBLIC ${BLAS_INCLUDE_DIRS})
 
 add_executable(parlda parlda.cpp)
 
@@ -293,7 +289,6 @@ target_link_directories(parlda PUBLIC ${OPENSSL_LIBRARY_DIRS})
 target_include_directories(parlda PUBLIC ${OPENSSL_INCLUDE_DIRS})
 
 add_library(distparldalib STATIC distparldalib.cpp)
-
 target_link_libraries(distparldalib ldaobj)
 
 target_compile_options(distparldalib PUBLIC ${DISTPARLDA_CONFIG_DEFINITIONS})

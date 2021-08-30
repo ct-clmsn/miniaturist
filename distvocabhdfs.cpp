@@ -103,7 +103,7 @@ int hpx_main(hpx::program_options::variables_map & vm) {
         std::vector< fs::path >::iterator beg = paths.begin();
         std::vector< fs::path >::iterator end = paths.end();
 
-        const std::size_t nentries = document_path_to_inverted_index(ctx, beg, end, regexp, ii);
+        document_path_to_inverted_index(ctx, beg, end, regexp, ii);
 
         std::hash<std::string> stdhash{};
 

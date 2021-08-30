@@ -12,6 +12,7 @@
 #include <vector>
 #include <unordered_map>
 #include <algorithm>
+#include <fstream>
 
 #include "unicode/unistr.h"
 #include "unicode/ustream.h"
@@ -103,4 +104,70 @@ void print_document_topics(DynamicMatrix<double> const& tdcm, const std::size_t 
         }
         std::cout << std::endl;
     }
+}
+
+void json_topic_matrices(std::string const& prefix, CompressedMatrix<double> const& dwcm, DynamicMatrix<double> const& tdcm, DynamicMatrix<double> const& twcm) {
+    std::ofstream fs(prefix + ".json");
+    fs << "[ { 'name' : 'dwcm', " << std::endl
+       << " 'data_size' : 1, " << std::endl
+       << " 'data' : [ " << dwcm << std::endl
+       << "] }, " << std::endl
+       << "{ 'name' : 'tdcm', " << std::endl
+       << " 'data' : " << tdcm << std::endl
+       << "}, " << std::endl
+       << "{ 'name' : 'twcm', " << std::endl
+       << " 'data' : " << twcm << std::endl
+       << "} ]" << std::endl;
+    fs.flush();
+    fs.close();
+}
+
+void json_topic_matrices(const std::size_t locality, std::string const& prefix, CompressedMatrix<double> const& dwcm, DynamicMatrix<double> const& tdcm, DynamicMatrix<double> const& twcm) {
+    std::string tprefix{ prefix + "_" + std::to_string(locality) };
+    json_topic_matrices(tprefix, dwcm, tdcm, twcm);
+}
+
+void json_topic_matrices(std::string const& prefix, std::vector<CompressedMatrix<double>> const& dwcm, std::vector<DynamicMatrix<double>> const& tdcm, std::vector<DynamicMatrix<double>> const& twcm) {
+    std::ofstream fs(prefix + ".json");
+    fs << "[ { 'name' : 'dwcm', " << std::endl
+       << " 'data_size' : " << dwcm.size() << ", " << std::endl
+       << " 'data' : [" << std::endl;
+
+       std::size_t sz = dwcm.size()-1, i = 0;
+       for(const auto& dwcm_m : dwcm) {
+           fs << dwcm_m << std::endl;
+	   if(i == sz) { fs << ',' << std::endl; }
+       }
+
+    fs << "] }, " << std::endl
+       << "{ 'name' : 'tdcm', " << std::endl
+       << " 'data_size' : " << tdcm.size() << ", " << std::endl
+       << " 'data' : [" << std::endl;
+      
+       sz = tdcm.size()-1, i = 0;
+       for(const auto& tdcm_m : tdcm) {
+           fs << tdcm_m << std::endl;
+	   if(i == sz) { fs << ',' << std::endl; }
+       }
+      
+       fs << "] }, " << std::endl
+       << "{ 'name' : 'twcm', " << std::endl
+       << " 'data_size' : " << twcm.size() << ", " << std::endl
+       << " 'data' : [" << std::endl;
+      
+       sz = twcm.size()-1, i = 0;
+       for(const auto& twcm_m : twcm) {
+           fs << twcm_m << std::endl;
+	   if(i == sz) { fs << ',' << std::endl; }
+       }
+     
+       fs << "] } ]" << std::endl;
+
+    fs.flush();
+    fs.close();
+}
+
+void json_topic_matrices(const std::size_t locality, std::string const& prefix, std::vector<CompressedMatrix<double>> const& dwcm, std::vector<DynamicMatrix<double>> const& tdcm, std::vector<DynamicMatrix<double>> const& twcm) {
+    std::string tprefix{ prefix + "_" + std::to_string(locality) };
+    json_topic_matrices(tprefix, dwcm, tdcm, twcm);
 }

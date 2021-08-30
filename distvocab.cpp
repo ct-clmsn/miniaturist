@@ -13,6 +13,7 @@
 #include <hpx/algorithm.hpp>
 
 #include <vector>
+#include <unordered_map>
 #include <numeric>
 #include <algorithm>
 #include <cmath>
@@ -76,7 +77,7 @@ int hpx_main(hpx::program_options::variables_map & vm) {
         std::vector< fs::path >::iterator beg = paths.begin();
         std::vector< fs::path >::iterator end = paths.end();
 
-        const std::size_t nentries = document_path_to_inverted_index(beg, end, regexp, ii);
+        document_path_to_inverted_index(beg, end, regexp, ii);
 
         std::hash<std::string> stdhash{};
 
@@ -128,19 +129,28 @@ int hpx_main(hpx::program_options::variables_map & vm) {
         std::copy(std::begin(fin_indices), std::end(fin_indices), std::begin(indices));
     }
 
-    for(std::size_t i = 0; i < n_locales; ++i) {
-        for(const auto& e : indices[i]) {
-            std::cout << e.first << std::endl;
-        }
+    {
+	std::unordered_map<std::string, bool> filter{};
+	const auto filter_end = filter.end(); 
+
+        for(std::size_t i = 0; i < n_locales; ++i) {
+            for(const auto& e : indices[i]) {
+		if(filter.find(e.first) != filter_end) {
+                    std::cout << e.first << std::endl;
+		    filter[e.first] = true;
+		}
+            }
+	}
     }
 
     return hpx::finalize();
 }
 
 int main(int argc, char ** argv) {
-    hpx::program_options::options_description desc("usage: distvocab [options]");                                                                                                  desc.add_options()("regex,re",                                                                                                                                                  hpx::program_options::value<std::string>()->default_value("[\\p{L}\\p{M}]+"),                                                                                               "regex (default: [\\p{L}\\p{M}]+]")("corpus_dir,cd",
-        hpx::program_options::value<std::string>(),
-        "directory path containing the corpus to model");
+    hpx::program_options::options_description desc("usage: distvocab [options]");
+    desc.add_options()
+	    ("regex,re", hpx::program_options::value<std::string>()->default_value("[\\p{L}\\p{M}]+"),"regex (default: [\\p{L}\\p{M}]+]")
+	    ("corpus_dir,cd",hpx::program_options::value<std::string>(),"directory path containing the corpus to model");
 
     hpx::init_params params;
     params.desc_cmdline = desc;

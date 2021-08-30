@@ -42,10 +42,15 @@ int main(int argc, char ** argv) {
             else {
                 switch(c) {
                     case 'c':
-                    {                                                                                                                                                                               std::string carg{optarg};
-                        pth = fs::path{carg};                                                                                                                                                       break;                                                                                                                                                                  }
+                    {
+                        std::string carg{optarg};
+                        pth = fs::path{carg};
+			break;
+		    }
                     case 'r':
-                    {                                                                                                                                                                               regexp = UnicodeString::fromUTF8(std::string{optarg});
+                    {
+                        regexp = UnicodeString::fromUTF8(std::string{optarg});
+			break;
                     }
                 }
             }
@@ -66,14 +71,14 @@ int main(int argc, char ** argv) {
     std::unordered_map<std::string, std::size_t> vocabulary;
 
     std::vector< fs::path > paths;
-    const std::size_t n_paths = path_to_vector( pth, paths );
+    path_to_vector( pth, paths );
 
     inverted_index_t ii{};
 
     std::vector< fs::path >::iterator beg = paths.begin();
     std::vector< fs::path >::iterator end = paths.end();
 
-    const std::size_t nentries = document_path_to_inverted_index(beg, end, regexp, ii, vocabulary);
+    document_path_to_inverted_index(beg, end, regexp, ii, vocabulary);
     for(const auto& e : ii) {
         std::cout << e.first << std::endl;
     }

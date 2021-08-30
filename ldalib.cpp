@@ -38,7 +38,6 @@ void train_lda(CompressedMatrix<double> const& dwcm,
         std::uniform_int_distribution<std::size_t> dis(0, n_topics-1);
 
         const std::size_t n_docs = dwcm.rows();
-        const std::size_t n_words = dwcm.columns();
 
         std::vector<std::size_t>::iterator token_itr = tokens.begin();
 

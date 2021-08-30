@@ -20,7 +20,6 @@
 #include <openssl/ssl.h>
 
 #include "jch.hpp"
-#include "bloomfilter.hpp"
 #include "documents.hpp"
 
 #ifdef ICU69
@@ -40,6 +39,7 @@ std::size_t path_to_vector(fs::path const& p, std::vector<fs::path> & paths) {
     return paths.size();
 }
 
+/*
 static void read_file_content(fs::path const& p, std::vector<UnicodeString> & fcontent) {
     fs::directory_iterator di(p);
 
@@ -63,6 +63,7 @@ static void read_file_content(fs::path const& p, std::vector<UnicodeString> & fc
         //}
     }
 }
+*/
 
 void read_content(fs::path const& p, std::vector<UnicodeString> & fcontent) {
     std::ifstream istrm(p, std::ios::in | std::ios::binary);
@@ -76,6 +77,7 @@ void read_content(fs::path const& p, std::vector<UnicodeString> & fcontent) {
 }
 
 
+/*
 static void read_file_content(std::vector<fs::path> const& p, std::vector<UnicodeString> & fcontent) {
     for(auto & pth : p) {
         std::ifstream istrm(pth, std::ios::in | std::ios::binary);
@@ -90,18 +92,17 @@ static void read_file_content(std::vector<fs::path> const& p, std::vector<Unicod
         fcontent.push_back( UnicodeString::fromUTF8(contents).toLower() );
         istrm.close();
 
-        /*
-        UnicodeString content, rd;
+        //UnicodeString content, rd;
 
-        while(istrm >> rd) {
-            content += (" " + rd.toLower());
-        }
+        //while(istrm >> rd) {
+        //    content += (" " + rd.toLower());
+        //}
 
-        fcontent.push_back( std::move(content) );
-        istrm.close();
-        */
+        //fcontent.push_back( std::move(content) );
+        //istrm.close();
     }
 }
+*/
 
 static void read_file_content(std::vector<fs::path>::iterator & beg, std::vector<fs::path>::iterator & end, std::vector<UnicodeString> & fcontent) {
     for(auto pth = beg; pth != end; ++pth) {
@@ -129,6 +130,7 @@ static void read_file_content(std::vector<fs::path>::iterator & beg, std::vector
     }
 }
 
+/*
 // https://unicode-org.github.io/icu-docs/apidoc/dev/icu4c/classicu_1_1UnicodeString.html
 //
 // https://github.com/jpakkane/cppunicode/blob/main/cppunicode.cpp
@@ -217,8 +219,9 @@ std::size_t create_inverted_index(inverted_index_t & index, fs::path const& p, c
 
    return fc_count;
 }
+*/
 
-void inverted_index_to_matrix(std::unordered_map<std::string, std::size_t> const& voc, inverted_index_t const& idx, const std::size_t ndocs, const std::size_t entry_count, CompressedMatrix<double> & mat, const bool debug) {
+void inverted_index_to_matrix(std::unordered_map<std::string, std::size_t> const& voc, inverted_index_t const& idx, const std::size_t ndocs, CompressedMatrix<double> & mat, const bool debug) {
     const std::size_t nvoc = voc.size();
     mat.resize(nvoc, ndocs);
     const auto voc_end = voc.end();
@@ -227,9 +230,10 @@ void inverted_index_to_matrix(std::unordered_map<std::string, std::size_t> const
         const auto& ventry = voc.find(w.first);
         if(ventry != voc_end) {
             const std::size_t docsz = w.second.size();
-            mat.reserve(ventry->second, docsz);
+	    const std::size_t vocidx = ventry->second;
+            mat.reserve(vocidx, docsz);
             for(const auto d : w.second) {
-                mat.append(ventry->second, d.first, d.second);
+                mat.append(vocidx, d.first, d.second);
             }
         }
         else if(debug) {
@@ -242,6 +246,7 @@ void inverted_index_to_matrix(std::unordered_map<std::string, std::size_t> const
     }
 }
 
+/*
 void document_path_to_matrix(fs::path & p, UnicodeString & regexp, CompressedMatrix<double> & mat, std::unordered_map<std::string, std::size_t> const& voc) {
     inverted_index_t ii;
     const std::size_t doc_count = create_inverted_index(ii, p, 1, 1, regexp);
@@ -463,7 +468,7 @@ std::size_t document_path_to_inverted_indices(std::vector<fs::path>::iterator & 
 
    return entry_count;
 }
-
+*/
 std::size_t document_path_to_inverted_index(std::vector<fs::path>::iterator & beg, std::vector<fs::path>::iterator & end, UnicodeString & regexp, inverted_index_t & ii, std::unordered_map<std::string, std::size_t> const& voc) {
     std::vector<UnicodeString> files_content;
     read_file_content(beg, end, files_content);
@@ -505,9 +510,9 @@ std::size_t document_path_to_inverted_index(std::vector<fs::path>::iterator & be
                     ++entry_count;
                 }
             }
-            else {
-                std::cerr << "not found\t" << matched_token << std::endl;
-            }
+            //else {
+            //    std::cerr << "not found\t" << matched_token << std::endl;
+            //}
         }
 
         ++fc_count;

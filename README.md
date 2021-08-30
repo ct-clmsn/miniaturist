@@ -36,9 +36,9 @@ found in all documents of a corpus on HDFS
 The implementation uses a modified version of the collapsed gibbs
 sampler as defined by Newman, Asuncion, Smyth, and Welling.
 
-Significant modifications have been made to the Newman, et al
-treatment in an effort to utilize term-document-matrices as
-the storage structure for document histograms.
+Modifications have been made to the Newman, et al treatment in an
+effort to utilize term-document-matrices as the storage structure
+for document histograms.
 
 This implementation only scales in the direction of documents. Users
 are required to provide a vocabulary list in order to make use of this
@@ -62,8 +62,8 @@ for a file copy (scp).
 Container users should use the following options. The container is
 Ubuntu 20.04 based and uses some packages from 'universe'.
 
-* sudo singularity build miniaturist.sif miniaturist.def
-* singularity build --fakeroot miniaturist.sif miniaturist.def
+* `sudo singularity build miniaturist.sif miniaturist.def`
+* `singularity build --fakeroot miniaturist.sif miniaturist.def`
 
 The container uses wget to download a binary build of cmake from
 kitware's website and the OTF2 source from VI-HPS. Other software
@@ -76,7 +76,7 @@ This project requires using cmake. cmake requires creating a directory
 called 'build'. Users will change directory into 'build'. At this point
 the user will need to type something like the following:
 
-`cmake -Dblaze_DIR=<PATH_TO_BLAZE_CMAKEFILE> -DHPX_DIR=<PATH_TO_HPX_CMAKEFILE> ..`
+* `cmake -Dblaze_DIR=<PATH_TO_BLAZE_CMAKEFILE> -DHPX_DIR=<PATH_TO_HPX_CMAKEFILE> ..`
 
 These are possible directories where the blaze and hpx cmakefiles can
 be found:
@@ -86,7 +86,7 @@ be found:
 
 Add the following for Cloud (Hadoop File System - HDFS) support:
 
-`cmake -Dblaze_DIR=<PATH_TO_BLAZE_CMAKEFILE> -DHPX_DIR=<PATH_TO_HPX_CMAKEFILE> -Dlibhdfs3_DIR=<PATH_TO_LIBHDFS3_INSTALL> ..`
+* `cmake -Dblaze_DIR=<PATH_TO_BLAZE_CMAKEFILE> -DHPX_DIR=<PATH_TO_HPX_CMAKEFILE> -Dlibhdfs3_DIR=<PATH_TO_LIBHDFS3_INSTALL> ..`
 
 This is a possible location for libhdfs3.so and hdfs/hdfs.h:
 
@@ -96,7 +96,7 @@ Add the following for Python bindings to be built. To inform cmake where
 pybind11 is installed, use the `-Dpybind11_DIR=<PATH_TO_PYBIND11_CMAKEFILE>`
 flag.
 
-`cmake -Dblaze_DIR=<PATH_TO_BLAZE_CMAKEFILE> -DHPX_DIR=<PATH_TO_HPX_CMAKEFILE> -Dpybind11_DIR=<PATH_TO_PYBIND11_CMAKEFILE>`
+* `cmake -Dblaze_DIR=<PATH_TO_BLAZE_CMAKEFILE> -DHPX_DIR=<PATH_TO_HPX_CMAKEFILE> -Dpybind11_DIR=<PATH_TO_PYBIND11_CMAKEFILE>`
 
 Here is a possible directory where the pybind11 cmakefiles are located:
 
@@ -215,16 +215,9 @@ For OpenMP enabled LAPACK, BLAS, Blaze implementations:
 
 ## Licenses
 
-This implementation uses a Jump Consistency Hash and a Bloom Filter
-implementation provided by 3rd parties.
-
 * The Jump Consistency Hash source code was taken from a blog post
 with no license provided. The blog post and author are referenced
 in a comment at the top of the file 'jch.hpp'.
-
-* The Bloom Filter implementation is MIT licensed and the license
-terms can be found in the file 'MIT_LICENSE'. The author is referenced
-in a comment at the top of the file 'bloomfilter.hpp'.
 
 * The remainder of the source code in this project is [Boost Licensed](https://www.boost.org/users/license.html)
 and the license terms can be found in the file 'LICENSE'.
@@ -252,14 +245,17 @@ and the license terms can be found in the file 'LICENSE'.
 
 ## Special Thanks
 
-* D. Newman, A. Asuncion, P. Smyth, M. Welling. "Distributed Algorithms for Topic Models." JMLR 2009.
-* STE||AR Group ([STE||AR HPX](https://github.com/STEllAR-GROUP/hpx) & [Phylanx](https://github.com/STEllAR-GROUP/phylanx))
+* STE||AR Group ([STE||AR HPX](https://github.com/STEllAR-GROUP/hpx)
+* [Phylanx](https://github.com/STEllAR-GROUP/phylanx))
 * Blaze C++ Library ([Blaze](https://bitbucket.org/blaze-lib/blaze/src/master/))
 * Erlend Hamberg (Jump Consistency Hash)
-* Daan Kolthof (Bloom Filter)
 * Erik Muttersbach ([libhdfs3](https://github.com/erikmuttersbach/libhdfs3))
-* Kevin A. Huck, Allan Porterfield, Nick Chaimov, Hartmut Kaiser, Allen D. Malony, Thomas Sterling, Rob Fowler. "An Autonomic Performance Environment for eXascale"; [APEX](https://github.com/khuck/xpress-apex)
-* Jeremy Kemp; Tianyi Zhang; Shahrzad Shirzad; Bryce Adelstein Lelbach aka wash; Hartmut Kaiser; Bibek Wagle; Parsa Amini; Alireza Kheirkhahan. "[hpxMP](https://github.com/STEllAR-GROUP/hpxMP) v0.3.0: An OpenMP runtime implemented using HPX"
+
+## References
+* D. Newman, A. Asuncion, P. Smyth, M. Welling. "Distributed Algorithms for Topic Models." JMLR 2009.
+* H. Kaiser, M. Brodowicz and T. Sterling: ParalleX: An Advanced Parallel Execution Model for Scaling-Impaired Applications, International Conference on Parallel Processing Workshops (2009 – Los Alamos, California).
+* Kevin Huck, Allan Porterfield, Nick Chaimov, Hartmut Kaiser, Allen D. Malony, Thomas Sterling, Rob Fowler. An Autonomic Performance Environment for Exascale. Supercomputing frontiers and innovations, 2.3 (2015).
+* Jeremy Kemp; Tianyi Zhang; Shahrzad Shirzad; Bryce Adelstein Lelbach aka wash; Hartmut Kaiser; Bibek Wagle; Parsa Amini; Alireza Kheirkhahan. "[hpxMP](https://github.com/STEllAR-GROUP/hpxMP) v0.3.0: An OpenMP runtime implemented using HPX".
 
 ## Author
 

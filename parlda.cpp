@@ -60,6 +60,11 @@ int hpx_main(hpx::program_options::variables_map & vm) {
         }
     }
 
+    std::string jsonprefix{};
+    if(vm.count("json") > 0) {
+        jsonprefix = vm["json"].as<std::string>();
+    }
+
     UnicodeString regexp(UnicodeString::fromUTF8(vm["regex"].as<std::string>())); //u"[\\p{L}\\p{M}]+");
 
     fs::path pth{vm["corpus_dir"].as<std::string>()};
@@ -94,7 +99,7 @@ int hpx_main(hpx::program_options::variables_map & vm) {
 
         for(const std::size_t i : thread_idx) {
             const std::size_t base = i * chunk_sz;
-            std::tuple<std::size_t, std::size_t> dp{base,  ( i != (n_threads-1) ) ? (base + chunk_sz) : n_paths};
+            std::tuple<std::size_t, std::size_t> dp{base,  ( i != (n_threads-1) ) ? (base + chunk_sz) : (n_paths-1) };
 
             const std::size_t doc_diff = std::get<1>(dp)-std::get<0>(dp);
             tdcm[i].resize( n_topics, doc_diff );
@@ -106,24 +111,29 @@ int hpx_main(hpx::program_options::variables_map & vm) {
 
             auto beg = paths_itr+std::get<0>(doc_chunks[i]);
             auto end = paths_itr+std::get<1>(doc_chunks[i]);
-            const std::size_t nentries = document_path_to_inverted_index(beg, end, regexp, ii[i], vocabulary);
+            document_path_to_inverted_index(beg, end, regexp, ii[i], vocabulary);
             const std::size_t ndocs = static_cast<std::size_t>(end-beg);
-            CompressedMatrix<double> wdcm;
-            inverted_index_to_matrix(vocabulary, ii[i], ndocs, nentries, wdcm);
-            dwcm[i] = blaze::trans(wdcm);
+            inverted_index_to_matrix(vocabulary, ii[i], ndocs, dwcm[i]);
+            dwcm[i] = blaze::trans(dwcm[i]);
             matrix_to_vector(dwcm[i], tokens[i]);
-        }
+	}
     }
 
     par_train_lda(thread_idx, dwcm, tdcm, twcm, tokens, n_topics, iterations, alpha, beta);
 
-    print_topics(vocabulary, twcm[0], n_topics);
+    if(jsonprefix.size() < 1) {
 
-    for(const std::size_t i : thread_idx) {
-        const auto beg = std::get<0>(doc_chunks[i]);
-        const auto end = std::get<1>(doc_chunks[i]);
-        const std::size_t diff = static_cast<std::size_t>(end-beg);
-        print_document_topics(tdcm[i], n_topics, 0, diff, 4);
+        print_topics(vocabulary, twcm[0], n_topics);
+
+        for(const std::size_t i : thread_idx) {
+            const auto beg = std::get<0>(doc_chunks[i]);
+            const auto end = std::get<1>(doc_chunks[i]);
+            const std::size_t diff = static_cast<std::size_t>(end-beg);
+            print_document_topics(tdcm[i], n_topics, 0, diff, 4);
+        }
+    }
+    else {
+        json_topic_matrices(jsonprefix, dwcm, tdcm, twcm);
     }
 
     return hpx::finalize();
@@ -146,7 +156,9 @@ int main(int argc, char ** argv) {
         hpx::program_options::value<std::string>(),
         "file path containing the vocabulary list")("corpus_dir,cd",
         hpx::program_options::value<std::string>(),
-        "directory path containing the corpus to model");
+        "directory path containing the corpus to model")("json,js",
+        hpx::program_options::value<std::string>(),
+	"write matrices to json file with user provided prefix");
 
     hpx::init_params params;
     params.desc_cmdline = desc;

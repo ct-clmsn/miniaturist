@@ -149,10 +149,10 @@ int hpx_main(hpx::program_options::variables_map & vm) {
 
             auto beg = paths_itr+std::get<0>(doc_chunks[i]);
             auto end = paths_itr+std::get<1>(doc_chunks[i]);
-            const std::size_t nentries = document_path_to_inverted_index(ctx, beg, end, regexp, ii[i], vocabulary);
+            document_path_to_inverted_index(ctx, beg, end, regexp, ii[i], vocabulary);
             const std::size_t ndocs = static_cast<std::size_t>(end-beg);
             CompressedMatrix<double> wdcm;
-            inverted_index_to_matrix(vocabulary, ii[i], ndocs, nentries, wdcm);
+            inverted_index_to_matrix(vocabulary, ii[i], ndocs, wdcm);
             dwcm[i] = blaze::trans(wdcm);
             matrix_to_vector(dwcm[i], tokens[i]);
         }
