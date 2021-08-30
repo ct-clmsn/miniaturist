@@ -245,8 +245,8 @@ and the license terms can be found in the file 'LICENSE'.
 
 ## Special Thanks
 
-* STE||AR Group ([STE||AR HPX](https://github.com/STEllAR-GROUP/hpx)
-* [Phylanx](https://github.com/STEllAR-GROUP/phylanx))
+* [STE||AR Group](https://github.com/STEllAR-GROUP/hpx)
+* [Phylanx](https://github.com/STEllAR-GROUP/phylanx)
 * Blaze C++ Library ([Blaze](https://bitbucket.org/blaze-lib/blaze/src/master/))
 * Erlend Hamberg (Jump Consistency Hash)
 * Erik Muttersbach ([libhdfs3](https://github.com/erikmuttersbach/libhdfs3))
