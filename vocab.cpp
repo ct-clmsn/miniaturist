@@ -21,6 +21,7 @@ namespace fs = std::experimental::filesystem;
 
 int main(int argc, char ** argv) {
 
+    bool histogram = false;
     UnicodeString regexp(u"[\\p{L}\\p{M}]+");
     fs::path pth{}; //("./corpus");
 
@@ -31,7 +32,8 @@ int main(int argc, char ** argv) {
             static struct option long_options[] =
             {
                 {"corpus_dir", required_argument, NULL, 'c' },
-                {"regex",  optional_argument,     NULL, 'r' },
+                {"regex",      optional_argument, NULL, 'r' },
+                {"histogram",  optional_argument, NULL, 'h' },
                 {NULL,      0,                    NULL,  0 }
             };
 
@@ -52,6 +54,11 @@ int main(int argc, char ** argv) {
                         regexp = UnicodeString::fromUTF8(std::string{optarg});
 			break;
                     }
+		    case 'h':
+		    {
+                        histogram = true;
+			break;
+	            }
                 }
             }
         }
@@ -79,7 +86,16 @@ int main(int argc, char ** argv) {
     std::vector< fs::path >::iterator end = paths.end();
 
     document_path_to_inverted_index(beg, end, regexp, ii, vocabulary);
-    for(const auto& e : ii) {
-        std::cout << e.first << std::endl;
+    if(!histogram) {
+        for(const auto& e : ii) {
+            std::cout << e.first << std::endl;
+        }
+    }
+    else {
+	std::plus<std::size_t> addr{};
+        for(const auto& e : ii) {
+            const std::size_t count = std::transform_reduce(e.second.begin(), e.second.end(), 0, addr, [](const auto& entry){ return entry.second; });
+            std::cout << e.first << ',' << count << std::endl;
+        }
     }
 }

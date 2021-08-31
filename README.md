@@ -124,14 +124,19 @@ Command line arguments for all topic modeling programs:
 Additional command line arguments for parlda:
 
 * --hpx:threads=[enter an unsigned integer value for number of threads], optional
+* --hpx:numa-sensitive=1, runtime system's thread scheduler considers numa domains, optional
 
 Additional command line arguments for distparlda:
 
 * --hpx:threads=[enter an unsigned integer value for number of threads], optional
+* --hpx:numa-sensitive=1, runtime system's thread scheduler considers numa domains, optional
 * --hpx:nodes=[enter an unsigned integer value for number of threads], optional
 
 Additional command line arguments for distparldahdfs:
 
+* --hpx:threads=[enter an unsigned integer value for number of threads], optional
+* --hpx:numa-sensitive=1, runtime system's thread scheduler considers numa domains, optional
+* --hpx:nodes=[enter an unsigned integer value for number of threads], optional
 * --hdfs_namenode_address=[enter string], required
 * --hdfs_namenode_port=[unsigned integer for hdfs namenode port], required
 * --hdfs_buffer_size=[unsigned integer buffer size for file reads from hdfs], default 1024
@@ -146,6 +151,7 @@ Command line arguments for all vocabulary programs:
 
 * --corpus_dir=[enter a valid path to the directory containing the training corpus], required
 * --regex=[enter a regular expression], default [\p{L}\p{M}]+
+* --histogram, print out the global count of each word (default off)
 
 Additional command line arguments for distvocabhdfs:
 
@@ -162,6 +168,14 @@ Topic Modeling Libraries:
 The Python bindings requires users to type the following in python3.8:
 
 `from pylda import lda`
+
+## How To Use Container
+
+* `singularity help miniaturist.sif`
+* `singularity help --app lda miniaturist.sif`
+* `singularity help --app parlda miniaturist.sif`
+* `singularity help --app distparlda miniaturist.sif`
+* `singularity help --app distparldahdfs miniaturist.sif`
 
 ## Implementation Notes
 

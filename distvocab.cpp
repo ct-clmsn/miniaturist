@@ -33,11 +33,16 @@ using namespace hpx::collectives;
 
 int hpx_main(hpx::program_options::variables_map & vm) {
 
+    bool histogram = false;
     bool exit = false;
 
     if(vm.count("corpus_dir") == 0) {
         std::cerr << "Please specify '--corpus_dir=corpus-directory'" << std::endl;
         exit = true;
+    }
+
+    if(vm.count("histogram") != 0) {
+        histogram = true;
     }
 
     if(exit) {
@@ -129,9 +134,9 @@ int hpx_main(hpx::program_options::variables_map & vm) {
         std::copy(std::begin(fin_indices), std::end(fin_indices), std::begin(indices));
     }
 
-    {
+    if(!histogram) {
 	std::unordered_map<std::string, bool> filter{};
-	const auto filter_end = filter.end(); 
+        const auto filter_end = filter.end(); 
 
         for(std::size_t i = 0; i < n_locales; ++i) {
             for(const auto& e : indices[i]) {
@@ -142,6 +147,38 @@ int hpx_main(hpx::program_options::variables_map & vm) {
             }
 	}
     }
+    else {
+        std::unordered_map<std::string, std::size_t> filter{};
+        const auto filter_end = filter.end(); 
+	std::plus<std::size_t> addr{};
+
+        for(std::size_t i = 0; i < n_locales; ++i) {
+            for(const auto& e : indices[i]) {
+		if(filter.find(e.first) != filter_end) {
+                    const std::size_t count = hpx::transform_reduce(hpx::execution::par,
+                        std::begin(e.second), std::end(e.second), 0, addr,
+			[](const auto& entry){
+			    return entry.second;
+                    });
+
+		    filter[e.first] = count;
+		}
+		else {
+                    const std::size_t count = hpx::transform_reduce(hpx::execution::par,
+                        std::begin(e.second), std::end(e.second), 0, addr,
+			[](const auto& entry){
+			    return entry.second;
+                    });
+
+		    filter[e.first] += count;
+		}
+            }
+	}
+
+	for(const auto& e : filter) {
+            std::cout << e.first << ',' << e.second << std::endl;
+        }
+    }
 
     return hpx::finalize();
 }
@@ -150,7 +187,8 @@ int main(int argc, char ** argv) {
     hpx::program_options::options_description desc("usage: distvocab [options]");
     desc.add_options()
 	    ("regex,re", hpx::program_options::value<std::string>()->default_value("[\\p{L}\\p{M}]+"),"regex (default: [\\p{L}\\p{M}]+]")
-	    ("corpus_dir,cd",hpx::program_options::value<std::string>(),"directory path containing the corpus to model");
+	    ("corpus_dir,cd",hpx::program_options::value<std::string>(),"directory path containing the corpus to model")
+	    ("histogram,hg",hpx::program_options::value<std::string>(),"print global counts");
 
     hpx::init_params params;
     params.desc_cmdline = desc;
