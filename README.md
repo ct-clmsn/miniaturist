@@ -171,6 +171,9 @@ The Python bindings requires users to type the following in python3.8:
 
 ## How To Use Container
 
+Use the following command line arguments to print out the command line arguments enumerated
+above for each program in the container.
+
 * `singularity help miniaturist.sif`
 * `singularity help --app lda miniaturist.sif`
 * `singularity help --app parlda miniaturist.sif`
