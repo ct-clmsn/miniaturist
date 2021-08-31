@@ -128,8 +128,8 @@ int hpx_main(hpx::program_options::variables_map & vm) {
         for(const std::size_t i : thread_idx) {
             const auto beg = std::get<0>(doc_chunks[i]);
             const auto end = std::get<1>(doc_chunks[i]);
-            const std::size_t diff = static_cast<std::size_t>(end-beg);
-            print_document_topics(tdcm[i], n_topics, 0, diff, 4);
+            //const std::size_t diff = static_cast<std::size_t>(end-beg);
+            print_document_topics(tdcm[i], n_topics, beg, end, 4);
         }
     }
     else {

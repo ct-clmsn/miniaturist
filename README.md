@@ -150,8 +150,8 @@ Vocabulary Building Program names:
 Command line arguments for all vocabulary programs:
 
 * --corpus_dir=[enter a valid path to the directory containing the training corpus], required
-* --regex=[enter a regular expression], default [\p{L}\p{M}]+
-* --histogram, print out the global count of each word (default off)
+* --regex=[enter a regular expression], default [\p{L}\p{M}]+, optional
+* --histogram, print out the global count of each word (default off), optional
 
 Additional command line arguments for distvocabhdfs:
 

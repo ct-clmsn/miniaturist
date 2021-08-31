@@ -23,7 +23,7 @@ int main(int argc, char ** argv) {
 
     bool histogram = false;
     UnicodeString regexp(u"[\\p{L}\\p{M}]+");
-    fs::path pth{}; //("./corpus");
+    fs::path pth{};
 
     {
         bool halt = false;
@@ -66,7 +66,7 @@ int main(int argc, char ** argv) {
         bool exit = false;
 
         if(pth.string().size() < 1) {
-            std::cerr << "Please specify '--vocab_list=vocabulary-file'" << std::endl;
+            std::cerr << "Please specify '--corpus_dir (required), --regex (optional), --histogram (optional)'" << std::endl;
             exit = true;
         }
 
