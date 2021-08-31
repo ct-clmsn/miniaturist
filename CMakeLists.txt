@@ -415,7 +415,7 @@ target_include_directories(distvocab PUBLIC ${OPENSSL_INCLUDE_DIRS})
 
 install(
     # install all miniaturist header files
-    FILES ${PROJECT_SOURCE_DIR}/bloomfilter.hpp ${PROJECT_SOURCE_DIR}/gibbs.hpp ${PROJECT_SOURCE_DIR}/inverted_index.hpp ${PROJECT_SOURCE_DIR}/jch.hpp ${PROJECT_SOURCE_DIR}/parldalib.hpp ${PROJECT_SOURCE_DIR}/results.hpp ${PROJECT_SOURCE_DIR}/distparldalib.hpp ${PROJECT_SOURCE_DIR}/documents.hpp ${PROJECT_SOURCE_DIR}/hdfs_support.hpp ${PROJECT_SOURCE_DIR}/inverted_index_serialize.hpp ${PROJECT_SOURCE_DIR}/ldalib.hpp ${PROJECT_SOURCE_DIR}/posix_utility.hpp ${PROJECT_SOURCE_DIR}/serialize.hpp
+    FILES ${PROJECT_SOURCE_DIR}/gibbs.hpp ${PROJECT_SOURCE_DIR}/inverted_index.hpp ${PROJECT_SOURCE_DIR}/jch.hpp ${PROJECT_SOURCE_DIR}/parldalib.hpp ${PROJECT_SOURCE_DIR}/results.hpp ${PROJECT_SOURCE_DIR}/distparldalib.hpp ${PROJECT_SOURCE_DIR}/documents.hpp ${PROJECT_SOURCE_DIR}/hdfs_support.hpp ${PROJECT_SOURCE_DIR}/inverted_index_serialize.hpp ${PROJECT_SOURCE_DIR}/ldalib.hpp ${PROJECT_SOURCE_DIR}/posix_utility.hpp ${PROJECT_SOURCE_DIR}/serialize.hpp
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/miniaturist
 )
 
