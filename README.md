@@ -178,6 +178,9 @@ Use the following command line arguments to print out the command line arguments
 above for each program in the container.
 
 * `singularity help miniaturist.sif`
+* `singularity help --app vocab miniaturist.sif`
+* `singularity help --app distvocab miniaturist.sif`
+* `singularity help --app distvocabhdfs miniaturist.sif`
 * `singularity help --app lda miniaturist.sif`
 * `singularity help --app parlda miniaturist.sif`
 * `singularity help --app distparlda miniaturist.sif`
