@@ -140,6 +140,7 @@ Additional command line arguments for distparldahdfs:
 * --hdfs_namenode_address=[enter string], required
 * --hdfs_namenode_port=[unsigned integer for hdfs namenode port], required
 * --hdfs_buffer_size=[unsigned integer buffer size for file reads from hdfs], default 1024
+* --hdfs_block_size=[unsigned integer buffer size for file writes to hdfs], default 1024
 
 Vocabulary Building Program names:
 
@@ -151,6 +152,7 @@ Command line arguments for all vocabulary programs:
 
 * --corpus_dir=[enter a valid path to the directory containing the training corpus], required
 * --regex=[enter a regular expression], default [\p{L}\p{M}]+, optional
+* --filter=[unsigned integer frequency count above which vocabulary words are printed out], optional
 * --histogram, print out the global count of each word (default off), optional
 
 Additional command line arguments for distvocabhdfs:
@@ -158,6 +160,7 @@ Additional command line arguments for distvocabhdfs:
 * --hdfs_namenode_address=[enter string], required
 * --hdfs_namenode_port=[unsigned integer for hdfs namenode port], required
 * --hdfs_buffer_size=[unsigned integer buffer size for file reads from hdfs], default 1024
+* --hdfs_block_size=[unsigned integer buffer size for file writes to hdfs], default 1024
 
 Topic Modeling Libraries:
 
