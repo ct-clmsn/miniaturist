@@ -6,6 +6,8 @@
 //
 #include "hdfs_support.hpp"
 
+#include <sstream>
+
 #include <unicode/unistr.h>
 #include <unicode/ustream.h>
 #include <unicode/ucnv.h>
@@ -19,12 +21,13 @@ using namespace icu_69;
 using namespace icu_66;
 #endif
 
-void init_hdfs_context(hdfs_context & ctx, std::string const& namenode, const std::size_t namenode_port, const std::size_t buffer_sz) {
+void init_hdfs_context(hdfs_context & ctx, std::string const& namenode, const std::size_t namenode_port, const std::size_t buffer_sz, const std::size_t block_sz) {
     ctx.builder = hdfsNewBuilder();
     hdfsBuilderSetNameNode(ctx.builder, namenode.c_str());
     hdfsBuilderSetNameNodePort(ctx.builder, namenode_port);
     ctx.filesystem = hdfsBuilderConnect(ctx.builder);
     ctx.buffer_size = buffer_sz;
+    ctx.block_size = block_sz;
 }
 
 static void read_file_content(hdfs_context & ctx, fs::path const& pth, std::vector<UnicodeString> & fcontent) {
@@ -175,7 +178,8 @@ std::size_t document_path_to_inverted_index(hdfs_context & ctx, std::vector<fs::
                     ++entry_count;
                 }
             }
-            else {                                                                                                                                                                          std::cerr << "not found\t" << matched_token << std::endl;
+            else {
+                std::cerr << "not found\t" << matched_token << std::endl;
             }
         }
 
@@ -252,4 +256,83 @@ std::size_t document_path_to_inverted_index(hdfs_context & ctx, std::vector<fs::
     }
 
     return entry_count;
+}
+
+void json_topic_matrices(hdfs_context & ctx, std::string const& prefix, std::vector<CompressedMatrix<double>> const& dwcm, std::vector<DynamicMatrix<double>> const& tdcm, std::vector<DynamicMatrix<double>> const& twcm) {
+
+    std::string content{};
+    {
+        std::stringstream fs{};
+        fs << "[ { 'name' : 'dwcm', " << std::endl
+           << " 'data_size' : " << dwcm.size() << ", " << std::endl
+           << " 'data' : [" << std::endl;
+
+        std::size_t sz = dwcm.size()-1, i = 0;
+        for(const auto& dwcm_m : dwcm) {
+            fs << dwcm_m << std::endl;
+            if(i == sz) { fs << ',' << std::endl; }    
+        }
+
+        fs << "] }, " << std::endl
+           << "{ 'name' : 'tdcm', " << std::endl
+           << " 'data_size' : " << tdcm.size() << ", " << std::endl
+           << " 'data' : [" << std::endl;
+
+        sz = tdcm.size()-1, i = 0;
+        for(const auto& tdcm_m : tdcm) {
+            fs << tdcm_m << std::endl;
+            if(i == sz) { fs << ',' << std::endl; }
+        }
+
+        fs << "] }, " << std::endl
+           << "{ 'name' : 'twcm', " << std::endl
+           << " 'data_size' : " << twcm.size() << ", " << std::endl
+           << " 'data' : [" << std::endl;
+
+        sz = twcm.size()-1, i = 0;
+        for(const auto& twcm_m : twcm) {
+            fs << twcm_m << std::endl;
+            if(i == sz) { fs << ',' << std::endl; }
+        }
+
+        fs << "] } ]" << std::endl;
+
+        content = fs.str();
+        fs.flush();
+    }
+
+    hdfsFile out;
+    std::string fn{prefix + ".json"};
+    if (nullptr == (out = hdfsOpenFile(ctx.filesystem, fn.c_str(), O_WRONLY, 0, 0, ctx.block_size))) {
+	std::cerr << "json_topic_matrices hdfsOpenFile error" << std::endl;
+	std::cerr.flush();
+	return;
+    }
+
+    std::uint8_t buffer[ctx.buffer_size];
+    std::size_t content_sz = content.size();
+    std::size_t batch = 0;
+    std::size_t offset = 0;
+    int rc = -1;
+    
+    while(content_sz > 0) {
+	batch = content_sz < ctx.buffer_size ? content_sz : ctx.buffer_size;
+        std::copy_n(std::begin(content)+offset, batch, buffer);
+	if(0 > (rc = hdfsWrite(ctx.filesystem, out, buffer, batch))) {
+	    std::cerr << "json_topic_matrices hdfsWrite error" << std::endl;
+            std::cerr.flush();
+            rc = hdfsCloseFile(ctx.filesystem, out);
+	    return;
+	}
+
+	content_sz -= rc;
+	offset += rc;
+    }
+
+    rc = hdfsCloseFile(ctx.filesystem, out);
+}
+
+void json_topic_matrices(hdfs_context & ctx, const std::size_t locality, std::string const& prefix, std::vector<CompressedMatrix<double>> const& dwcm, std::vector<DynamicMatrix<double>> const& tdcm, std::vector<DynamicMatrix<double>> const& twcm) {
+    std::string tprefix{ prefix + "_" + std::to_string(locality) };
+    json_topic_matrices(ctx, tprefix, dwcm, tdcm, twcm);
 }

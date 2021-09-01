@@ -102,7 +102,7 @@ int hpx_main(hpx::program_options::variables_map & vm) {
             const std::size_t n_paths = path_to_vector( pth, locale_paths );
             const std::size_t chunk_sz = n_paths / n_locales;
             const std::size_t base = locality_id * chunk_sz;
-            const std::tuple<std::size_t, std::size_t> locale_dp{base, ( locality_id != (n_locales-1) ) ? (base + chunk_sz) : n_paths};
+            const std::tuple<std::size_t, std::size_t> locale_dp{base, ( locality_id != (n_locales-1) ) ? (base + chunk_sz) : (n_paths-1) };
             const std::size_t locale_doc_diff = std::get<1>(locale_dp)-std::get<0>(locale_dp);
             paths.resize(locale_doc_diff);
             std::copy_n(std::begin(locale_paths)+std::get<0>(locale_dp), locale_doc_diff, std::begin(paths));
@@ -144,8 +144,8 @@ int hpx_main(hpx::program_options::variables_map & vm) {
         for(const std::size_t i : thread_idx) {
             const auto beg = std::get<0>(doc_chunks[i]);
             const auto end = std::get<1>(doc_chunks[i]);
-            const std::size_t diff = static_cast<std::size_t>(end-beg);
-            print_document_topics(tdcm[i], n_topics, 0, diff, 4);
+            //const std::size_t diff = static_cast<std::size_t>(end-beg);
+            print_document_topics(tdcm[i], n_topics, beg, end, 4);
         }
     }
     else {

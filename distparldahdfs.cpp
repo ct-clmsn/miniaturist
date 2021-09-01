@@ -69,6 +69,16 @@ int hpx_main(hpx::program_options::variables_map & vm) {
         exit = true;
     }
 
+    if(vm.count("hdfs_block_size") == 0) {
+        std::cerr << "Please specify '--hdfs_block_size=unsigned-integer-value'" << std::endl;
+        exit = true;
+    }
+
+    std::string jsonprefix{};
+    if(vm.count("json") > 0) {
+        jsonprefix = vm["json"].as<std::string>();
+    }
+
     if(exit) {
         return hpx::finalize();
     }
@@ -97,8 +107,9 @@ int hpx_main(hpx::program_options::variables_map & vm) {
         const std::string namenode_addr = vm["hdfs_namenode_addr"].as<std::string>();
         const std::size_t namenode_port = vm["hdfs_namenode_port"].as<std::size_t>();
         const std::size_t hdfs_buffer_sz = vm["hdfs_buffer_size"].as<std::size_t>();
+        const std::size_t hdfs_block_sz = vm["hdfs_block_size"].as<std::size_t>();
 
-        init_hdfs_context(ctx, namenode_addr, namenode_port, hdfs_buffer_sz);
+        init_hdfs_context(ctx, namenode_addr, namenode_port, hdfs_buffer_sz, hdfs_block_sz);
     }
 
     const std::size_t vocab_sz = load_wordlist(ctx, wpth, vocabulary);
@@ -160,18 +171,20 @@ int hpx_main(hpx::program_options::variables_map & vm) {
 
     distpar_train_lda(n_locales, locality_id, thread_idx, dwcm, tdcm, twcm, tokens, n_topics, iterations, alpha, beta);
 
-    print_topics(vocabulary, twcm[0], n_topics);
+    if(jsonprefix.size() < 1) {
+        print_topics(vocabulary, twcm[0], n_topics);
 
-    for(const std::size_t i : thread_idx) {
-        const auto beg = std::get<0>(doc_chunks[i]);
-        const auto end = std::get<1>(doc_chunks[i]);
-        const std::size_t diff = static_cast<std::size_t>(end-beg);
-        print_document_topics(tdcm[i], n_topics, 0, diff, 4);
+        for(const std::size_t i : thread_idx) {
+            const auto beg = std::get<0>(doc_chunks[i]);
+            const auto end = std::get<1>(doc_chunks[i]);
+            const std::size_t diff = static_cast<std::size_t>(end-beg);
+            print_document_topics(tdcm[i], n_topics, 0, diff, 4);
+        }
+    }
+    else {
+        json_topic_matrices(ctx, locality_id, jsonprefix, dwcm, tdcm, twcm);
     }
 
-    //for(const auto& tc : tdcm) {
-    //    std::cout << tc << std::endl;
-    //}
     return hpx::finalize();
 }
 
@@ -197,7 +210,11 @@ int main(int argc, char ** argv) {
         hpx::program_options::value<std::size_t>(),
         "port number used by the hdfs namenode server")("hdfs_buffer_size,bsz",
         hpx::program_options::value<std::size_t>()->default_value(1024),
-        "size of the buffer used to read data from hdfs");
+        "size of the buffer used to read data from hdfs")("hdfs_block_size,bksz",
+        hpx::program_options::value<std::size_t>()->default_value(1024),
+        "size of the file block used to write data to hdfs")("json,js",
+        hpx::program_options::value<std::string>(),
+        "write matrices to json file with user provided prefix");
 
     // make sure hpx_main is run on all localities
     //
