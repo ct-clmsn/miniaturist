@@ -22,6 +22,7 @@ namespace fs = std::experimental::filesystem;
 int main(int argc, char ** argv) {
 
     bool histogram = false;
+    std::size_t filtervalue = 0;
     UnicodeString regexp(u"[\\p{L}\\p{M}]+");
     fs::path pth{};
 
@@ -34,6 +35,7 @@ int main(int argc, char ** argv) {
                 {"corpus_dir", required_argument, NULL, 'c' },
                 {"regex",      optional_argument, NULL, 'r' },
                 {"histogram",  optional_argument, NULL, 'h' },
+                {"filter",     optional_argument, NULL, 'f' },
                 {NULL,      0,                    NULL,  0 }
             };
 
@@ -59,6 +61,13 @@ int main(int argc, char ** argv) {
                         histogram = true;
 			break;
 	            }
+                    case 'f':
+		    {
+			std::string sval{optarg};
+			char * svalend = nullptr;
+			filtervalue = static_cast<std::size_t>(std::strtoul(sval.c_str(), &svalend, 10));
+			break;
+	            }
                 }
             }
         }
@@ -75,8 +84,6 @@ int main(int argc, char ** argv) {
         }
     }
 
-    std::unordered_map<std::string, std::size_t> vocabulary;
-
     std::vector< fs::path > paths;
     path_to_vector( pth, paths );
 
@@ -85,17 +92,40 @@ int main(int argc, char ** argv) {
     std::vector< fs::path >::iterator beg = paths.begin();
     std::vector< fs::path >::iterator end = paths.end();
 
-    document_path_to_inverted_index(beg, end, regexp, ii, vocabulary);
+    document_path_to_inverted_index(beg, end, regexp, ii);
+
     if(!histogram) {
-        for(const auto& e : ii) {
-            std::cout << e.first << std::endl;
+	if(filtervalue < 1) {
+            for(const auto& e : ii) {
+                std::cout << e.first << std::endl;
+            }
+	}
+	else {
+    	    std::plus<std::size_t> addr{};
+            for(const auto& e : ii) {
+                const std::size_t count = std::transform_reduce(e.second.begin(), e.second.end(), 0, addr, [](const auto& entry){ return entry.second; });
+		if(count >= filtervalue) {
+                    std::cout << e.first << std::endl;
+		}
+            }
         }
     }
     else {
-	std::plus<std::size_t> addr{};
-        for(const auto& e : ii) {
-            const std::size_t count = std::transform_reduce(e.second.begin(), e.second.end(), 0, addr, [](const auto& entry){ return entry.second; });
-            std::cout << e.first << ',' << count << std::endl;
+	if(filtervalue < 1) {
+    	    std::plus<std::size_t> addr{};
+            for(const auto& e : ii) {
+                const std::size_t count = std::transform_reduce(e.second.begin(), e.second.end(), 0, addr, [](const auto& entry){ return entry.second; });
+                std::cout << e.first << ',' << count << std::endl;
+            }
+	}
+	else {
+    	    std::plus<std::size_t> addr{};
+            for(const auto& e : ii) {
+                const std::size_t count = std::transform_reduce(e.second.begin(), e.second.end(), 0, addr, [](const auto& entry){ return entry.second; });
+		if(count >= filtervalue) {
+                    std::cout << e.first << ',' << count << std::endl;
+		}
+            }
         }
     }
 }

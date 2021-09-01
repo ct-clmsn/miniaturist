@@ -61,6 +61,11 @@ int hpx_main(hpx::program_options::variables_map & vm) {
         exit = true;
     }
 
+    if(vm.count("hdfs_block_size") == 0) {
+        std::cerr << "Please specify '--hdfs_block_size=unsigned-integer-value'" << std::endl;
+        exit = true;
+    }
+
     if(exit) {
         return hpx::finalize();
     }
@@ -83,8 +88,9 @@ int hpx_main(hpx::program_options::variables_map & vm) {
         const std::string namenode_addr = vm["hdfs_namenode_addr"].as<std::string>();
         const std::size_t namenode_port = vm["hdfs_namenode_port"].as<std::size_t>();
         const std::size_t hdfs_buffer_sz = vm["hdfs_buffer_size"].as<std::size_t>();
+        const std::size_t hdfs_block_sz = vm["hdfs_block_size"].as<std::size_t>();
 
-        init_hdfs_context(ctx, namenode_addr, namenode_port, hdfs_buffer_sz);
+        init_hdfs_context(ctx, namenode_addr, namenode_port, hdfs_buffer_sz, hdfs_block_sz);
     }
 
     {
@@ -134,7 +140,6 @@ int hpx_main(hpx::program_options::variables_map & vm) {
             }
         }
     }
-
 
     {
         std::vector< inverted_index_t > fin_indices;
@@ -222,7 +227,9 @@ int main(int argc, char ** argv) {
         hpx::program_options::value<std::size_t>(),
         "port number used by the hdfs namenode server")("hdfs_buffer_size,bsz",
         hpx::program_options::value<std::size_t>()->default_value(1024),
-        "size of the buffer used to read data from hdfs");
+        "size of the buffer used to read data from hdfs")("hdfs_block_size,bksz",
+        hpx::program_options::value<std::size_t>()->default_value(1024),
+        "size of the block used to write data to hdfs");
 
     hpx::init_params params;
     params.desc_cmdline = desc;
