@@ -16,7 +16,6 @@ From: ubuntu:20.04
     apt-get update -y && \
     apt-get upgrade -y && \
     apt-get install -y autotools-dev build-essential wget bash git liblapack-dev libblas-dev libxml2-dev libprotobuf-dev uuid-dev libssl-dev libkrb5-dev libhwloc-dev libopenmpi-dev openmpi-bin libtcmalloc-minimal4 pkg-config gsasl libgsasl7-dev libboost-all-dev libgoogle-perftools-dev google-mock googletest protobuf-compiler libpapi-dev libhwloc-dev libicu-dev
-    apt-get remove --purge --y wget git *gstreamer*
 
     export GIT_SSL_NO_VERIFY=true
     export PATH=/usr/bin:/usr/local/bin:$PATH
@@ -85,6 +84,7 @@ From: ubuntu:20.04
     cd /tmp
 
     rm -rf cmake-3.21.0-linux-x86_64.sh blaze blaze_tensor hpx libhdfs3 miniaturist otf2-2.3 otf2-2.3.tar.gz
+    apt-get remove --purge --y wget git *gstreamer*
 
 %help
     This container hosts mutiple applications. Run the following commands to learn more about the applications hosted in this container: `singularity run-help --app <distvocab|vocab|distparlda|parlda|lda|distvocabhdfs|distparldahdfs> miniaturist.sif`
