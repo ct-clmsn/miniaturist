@@ -64,7 +64,7 @@ From: ubuntu:20.04
     cd hpx
     mkdir build
     cd build
-    cmake -DHPX_WITH_PARCELPORT_MPI=ON -DHPX_WITH_APEX=ON -DHPX_WITH_PAPI=ON -DHPX_WITH_FETCH_ASIO=ON -DHPX_WITH_TESTS=OFF -DHPX_WITH_EXAMPLES=OFF -DHPX_WITH_MALLOC=tcmalloc -DTCMALLOC_LIBRARY=/usr/lib/x86_64-linux-gnu/libtcmalloc_minimal.so -DTCMALLOC_INCLUDE_DIR=/usr/include/google/tcmalloc.h .. && make && make install
+    cmake -DCMAKE_CXX_COMPILER=mpic++ -DHPX_WITH_PARCELPORT_MPI=ON -DHPX_WITH_APEX=ON -DHPX_WITH_PAPI=ON -DHPX_WITH_FETCH_ASIO=ON -DHPX_WITH_TESTS=OFF -DHPX_WITH_EXAMPLES=OFF -DHPX_WITH_MALLOC=tcmalloc -DTCMALLOC_LIBRARY=/usr/lib/x86_64-linux-gnu/libtcmalloc_minimal.so -DTCMALLOC_INCLUDE_DIR=/usr/include/google/tcmalloc.h .. && make && make install
     cd /tmp
 
     echo "-- installing libhdfs3"
@@ -80,11 +80,11 @@ From: ubuntu:20.04
     cd miniaturist
     mkdir build
     cd build
-    cmake -Dblaze_DIR=/usr/share/blaze/cmake -DHPX_DIR=/usr/lib/cmake/HPX -Dlibhdfs3_DIR=/usr/local .. && make && make install
+    cmake -DCMAKE_CXX_COMPILER=mpic++ -Dblaze_DIR=/usr/share/blaze/cmake -DHPX_DIR=/usr/lib/cmake/HPX -Dlibhdfs3_DIR=/usr/local .. && make && make install
     cd /tmp
 
     rm -rf cmake-3.21.0-linux-x86_64.sh blaze blaze_tensor hpx libhdfs3 miniaturist otf2-2.3 otf2-2.3.tar.gz
-    apt-get remove --purge --y wget git *gstreamer*
+    apt-get purge -y wget git *gstreamer* perl* libperl*
 
 %help
     This container hosts mutiple applications. Run the following commands to learn more about the applications hosted in this container: `singularity run-help --app <distvocab|vocab|distparlda|parlda|lda|distvocabhdfs|distparldahdfs> miniaturist.sif`

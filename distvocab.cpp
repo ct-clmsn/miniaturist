@@ -16,6 +16,7 @@
 #include <unordered_map>
 #include <numeric>
 #include <algorithm>
+#include <limits>
 #include <cmath>
 #include <cstdint>
 #include <iostream>
@@ -35,21 +36,31 @@ int hpx_main(hpx::program_options::variables_map & vm) {
 
     bool histogram = false;
     bool exit = false;
+    std::size_t filterlb = 0;
+    std::size_t filterub = std::numeric_limits<std::size_t>::max();
 
     if(vm.count("corpus_dir") == 0) {
         std::cerr << "Please specify '--corpus_dir=corpus-directory'" << std::endl;
         exit = true;
     }
 
-    if(vm.count("histogram") != 0) {
+    if(vm.count("histogram") > 0) {
         histogram = true;
+    }
+
+    if(vm.count("filterlb") > 0) {
+        filterlb = vm["filterlb"].as<std::size_t>();
+    }
+
+    if(vm.count("filterub") > 0) {
+        filterub = vm["filterub"].as<std::size_t>();
     }
 
     if(exit) {
         return hpx::finalize();
     }
 
-    UnicodeString regexp(UnicodeString::fromUTF8(vm["regex"].as<std::string>())); //u"[\\p{L}\\p{M}]+");
+    UnicodeString regexp(UnicodeString::fromUTF8(vm["regex"].as<std::string>()));
     fs::path pth{vm["corpus_dir"].as<std::string>()};
 
     const std::vector<hpx::id_type> localities = hpx::find_all_localities();
@@ -134,50 +145,60 @@ int hpx_main(hpx::program_options::variables_map & vm) {
         std::copy(std::begin(fin_indices), std::end(fin_indices), std::begin(indices));
     }
 
-    if(!histogram) {
-	std::unordered_map<std::string, bool> filter{};
-        const auto filter_end = filter.end(); 
+    std::unordered_map<std::string, std::size_t> filter{};
+    const auto filter_end = filter.end(); 
+    std::plus<std::size_t> addr{};
 
-        for(std::size_t i = 0; i < n_locales; ++i) {
-            for(const auto& e : indices[i]) {
-		if(filter.find(e.first) != filter_end) {
+    for(std::size_t i = 0; i < n_locales; ++i) {
+        for(const auto& e : indices[i]) {
+	    if(filter.find(e.first) != filter_end) {
+                const std::size_t count = hpx::transform_reduce(hpx::execution::par,
+                    std::begin(e.second), std::end(e.second), 0, addr,
+		    [](const auto& entry){
+		        return entry.second;
+                });
+
+		filter[e.first] += count;
+            }
+	    else {
+                const std::size_t count = hpx::transform_reduce(hpx::execution::par,
+                    std::begin(e.second), std::end(e.second), 0, addr,
+		    [](const auto& entry){
+		        return entry.second;
+                });
+
+		filter[e.first] = count;
+            }
+        }
+    }
+
+    if(!histogram) {
+        if(filterlb != 0 && filterub != std::numeric_limits<std::size_t>::max()) {
+            for(const auto& e : filter) {
+                if(e.second >= filterlb && e.second <= filterub) {
                     std::cout << e.first << std::endl;
-		    filter[e.first] = true;
-		}
+                }
+            }
+	}
+        else {
+	    for(const auto& e : filter) {
+                std::cout << e.first << std::endl;
             }
 	}
     }
     else {
-        std::unordered_map<std::string, std::size_t> filter{};
-        const auto filter_end = filter.end(); 
-	std::plus<std::size_t> addr{};
-
-        for(std::size_t i = 0; i < n_locales; ++i) {
-            for(const auto& e : indices[i]) {
-		if(filter.find(e.first) != filter_end) {
-                    const std::size_t count = hpx::transform_reduce(hpx::execution::par,
-                        std::begin(e.second), std::end(e.second), 0, addr,
-			[](const auto& entry){
-			    return entry.second;
-                    });
-
-		    filter[e.first] = count;
-		}
-		else {
-                    const std::size_t count = hpx::transform_reduce(hpx::execution::par,
-                        std::begin(e.second), std::end(e.second), 0, addr,
-			[](const auto& entry){
-			    return entry.second;
-                    });
-
-		    filter[e.first] += count;
+	if(filterlb != 0 && filterub != std::numeric_limits<std::size_t>::max()) {
+	    for(const auto& e : filter) {
+		if(e.second >= filterlb && e.second <= filterub) {
+                    std::cout << e.first << ',' << e.second << std::endl;
 		}
             }
 	}
-
-	for(const auto& e : filter) {
-            std::cout << e.first << ',' << e.second << std::endl;
-        }
+        else {
+	    for(const auto& e : filter) {
+                std::cout << e.first << ',' << e.second << std::endl;
+            }
+	}
     }
 
     return hpx::finalize();
@@ -188,7 +209,9 @@ int main(int argc, char ** argv) {
     desc.add_options()
 	    ("regex,re", hpx::program_options::value<std::string>()->default_value("[\\p{L}\\p{M}]+"),"regex (default: [\\p{L}\\p{M}]+]")
 	    ("corpus_dir,cd",hpx::program_options::value<std::string>(),"directory path containing the corpus to model")
-	    ("histogram,hg",hpx::program_options::value<std::string>(),"print global counts");
+	    ("filterlb,lb",hpx::program_options::value<std::size_t>(),"filter out terms with a frequency below this value")
+	    ("filterub,ub",hpx::program_options::value<std::size_t>(),"filter out terms with a frequency above this value")
+	    ("histogram,hg",hpx::program_options::value<bool>(),"print global counts");
 
     hpx::init_params params;
     params.desc_cmdline = desc;

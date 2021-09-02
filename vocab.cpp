@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
+#include <limits>
 #include <iostream>
 #include <unistd.h>
 #include <getopt.h>
@@ -22,7 +23,8 @@ namespace fs = std::experimental::filesystem;
 int main(int argc, char ** argv) {
 
     bool histogram = false;
-    std::size_t filtervalue = 0;
+    std::size_t filterlb = 0;
+    std::size_t filterub = std::numeric_limits<std::size_t>::max();
     UnicodeString regexp(u"[\\p{L}\\p{M}]+");
     fs::path pth{};
 
@@ -35,7 +37,8 @@ int main(int argc, char ** argv) {
                 {"corpus_dir", required_argument, NULL, 'c' },
                 {"regex",      optional_argument, NULL, 'r' },
                 {"histogram",  optional_argument, NULL, 'h' },
-                {"filter",     optional_argument, NULL, 'f' },
+                {"filterlb",     optional_argument, NULL, 'l' },
+                {"filterub",     optional_argument, NULL, 'u' },
                 {NULL,      0,                    NULL,  0 }
             };
 
@@ -61,13 +64,21 @@ int main(int argc, char ** argv) {
                         histogram = true;
 			break;
 	            }
-                    case 'f':
+                    case 'l':
 		    {
 			std::string sval{optarg};
 			char * svalend = nullptr;
-			filtervalue = static_cast<std::size_t>(std::strtoul(sval.c_str(), &svalend, 10));
+			filterlb = static_cast<std::size_t>(std::strtoul(sval.c_str(), &svalend, 10));
 			break;
 	            }
+                    case 'u':
+		    {
+			std::string sval{optarg};
+			char * svalend = nullptr;
+			filterub = static_cast<std::size_t>(std::strtoul(sval.c_str(), &svalend, 10));
+			break;
+	            }
+
                 }
             }
         }
@@ -75,7 +86,7 @@ int main(int argc, char ** argv) {
         bool exit = false;
 
         if(pth.string().size() < 1) {
-            std::cerr << "Please specify '--corpus_dir (required), --regex (optional), --histogram (optional)'" << std::endl;
+            std::cerr << "Please specify '--corpus_dir=<path> (required), --regex=<string> (optional), --histogram (optional) --filterlb=integer (optional) --filterub=integer (optional)'" << std::endl;
             exit = true;
         }
 
@@ -95,7 +106,7 @@ int main(int argc, char ** argv) {
     document_path_to_inverted_index(beg, end, regexp, ii);
 
     if(!histogram) {
-	if(filtervalue < 1) {
+	if(filterlb == 0 && filterub == std::numeric_limits<std::size_t>::max()) {
             for(const auto& e : ii) {
                 std::cout << e.first << std::endl;
             }
@@ -104,14 +115,14 @@ int main(int argc, char ** argv) {
     	    std::plus<std::size_t> addr{};
             for(const auto& e : ii) {
                 const std::size_t count = std::transform_reduce(e.second.begin(), e.second.end(), 0, addr, [](const auto& entry){ return entry.second; });
-		if(count >= filtervalue) {
+		if(count >= filterlb && count <= filterub) {
                     std::cout << e.first << std::endl;
 		}
             }
         }
     }
     else {
-	if(filtervalue < 1) {
+	if(filterlb == 0 && filterub == std::numeric_limits<std::size_t>::max()) {
     	    std::plus<std::size_t> addr{};
             for(const auto& e : ii) {
                 const std::size_t count = std::transform_reduce(e.second.begin(), e.second.end(), 0, addr, [](const auto& entry){ return entry.second; });
@@ -122,7 +133,7 @@ int main(int argc, char ** argv) {
     	    std::plus<std::size_t> addr{};
             for(const auto& e : ii) {
                 const std::size_t count = std::transform_reduce(e.second.begin(), e.second.end(), 0, addr, [](const auto& entry){ return entry.second; });
-		if(count >= filtervalue) {
+		if(count >= filterlb && count <= filterub) {
                     std::cout << e.first << ',' << count << std::endl;
 		}
             }
