@@ -22,6 +22,7 @@ void gibbs(
     DynamicMatrix<double> & twcm,
     std::vector<std::size_t> & tokens, DynamicVector<double> & ztot,
     DynamicVector<double> & probs,
+    drand & dr,
     const std::size_t n_topics, const double N, const double alpha, const double beta) {
 
     const std::size_t n_docs = dwcm.rows();
@@ -56,7 +57,7 @@ void gibbs(
 
                 probs = ((blaze::column(twcm, w) + beta) * (blaze::column(tdcm,d) + alpha)) / (ztot + wbeta);
                 const double totprob = blaze::sum(probs);
-                const double maxprob = totprob * drand48();
+                const double maxprob = totprob * dr();
                 std::size_t nt = 0;
                 double curprob = probs[nt];
 

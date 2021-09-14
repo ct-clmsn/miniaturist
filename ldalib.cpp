@@ -60,9 +60,10 @@ void train_lda(CompressedMatrix<double> const& dwcm,
     DynamicVector<double> ztot(n_topics, 0.0);
     DynamicVector<double> probs(n_topics, 0.0);
     const double N = static_cast<double>(tokens.size());
+    drand dr{};
 
     for(std::size_t i = 0; i < iterations; ++i) {
         ztot = blaze::sum<blaze::rowwise>(twcm);
-        gibbs(dwcm, tdcm, twcm, tokens, ztot, probs, n_topics, N, alpha, beta);
+        gibbs(dwcm, tdcm, twcm, tokens, ztot, probs, dr, n_topics, N, alpha, beta);
     }
 }

@@ -67,6 +67,7 @@ void par_train_lda(const std::vector<std::size_t> & thread_idx,
     std::plus< DynamicMatrix<double> > adder{};
     std::vector< DynamicVector<double> > ztot(n_threads);
     std::vector< DynamicVector<double> > probs(n_threads);
+    std::vector< drand > drands(n_threads);
 
     DynamicMatrix<double> twcm_base(twcm[0].rows(), twcm[0].columns(), 0.0); 
     twcm_base = hpx::reduce(std::begin(twcm), std::end(twcm), twcm_base, adder);
@@ -93,8 +94,8 @@ void par_train_lda(const std::vector<std::size_t> & thread_idx,
         ztot[0] = blaze::sum<blaze::rowwise>(twcm_base);
         std::fill(std::begin(ztot), std::end(ztot), ztot[0]);
 
-        hpx::for_each(hpx::execution::par, std::begin(thread_idx), std::end(thread_idx), [&tokens, &dwcm, &tdcm, &twcm, &twcm_base, &ztot, &probs, n_topics, alpha, beta, N](const std::size_t i) {
-            gibbs(dwcm[i], tdcm[i], twcm[i], tokens[i], ztot[i], probs[i], n_topics, N, alpha, beta);
+        hpx::for_each(hpx::execution::par, std::begin(thread_idx), std::end(thread_idx), [&tokens, &dwcm, &tdcm, &twcm, &twcm_base, &ztot, &probs, &drands, n_topics, alpha, beta, N](const std::size_t i) {
+            gibbs(dwcm[i], tdcm[i], twcm[i], tokens[i], ztot[i], probs[i], drands[i], n_topics, N, alpha, beta);
             twcm[i] -= twcm_base;
         });
 

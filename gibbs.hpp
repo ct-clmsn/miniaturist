@@ -13,6 +13,8 @@
 
 #include <blaze/Math.h>
 
+#include "drand.hpp"
+
 using blaze::DynamicMatrix;
 using blaze::DynamicVector;
 using blaze::CompressedMatrix;
@@ -23,6 +25,7 @@ void gibbs(
     DynamicMatrix<double> & twcm,
     std::vector<std::size_t> & tokens, DynamicVector<double> & ztot,
     DynamicVector<double> & probs,
+    drand & dr,
     const std::size_t n_topics, const double N, const double alpha, const double beta);
 
 #endif
