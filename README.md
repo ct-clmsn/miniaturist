@@ -242,6 +242,9 @@ For OpenMP enabled LAPACK, BLAS, Blaze implementations:
 with no license provided. The blog post and author are referenced
 in a comment at the top of the file 'jch.hpp'.
 
+* The drand48 logic comes from [musl-libc](https://www.musl-libc.org/). The
+source code is MIT Licensed.
+
 * The remainder of the source code in this project is [Boost Licensed](https://www.boost.org/users/license.html)
 and the license terms can be found in the file 'LICENSE'.
 
